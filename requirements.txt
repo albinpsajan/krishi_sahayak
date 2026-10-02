@@ -1,7 +1,24 @@
-fastapi>=0.110
-uvicorn>=0.29
-sqlalchemy>=2.0
-pyjwt>=2.8
-pydantic>=2.6
-python-multipart>=0.0.9
-email-validator>=2.0
+# KrishiSahayak AI - backend dependencies
+# Install with:  pip install -r requirements.txt
+# Python 3.10+ required.
+#
+# Every other module used by the backend (hashlib, hmac, json, math, secrets,
+# uuid, urllib, unittest, logging, datetime, socket, subprocess) is part of the
+# Python standard library and is therefore intentionally not listed here.
+
+# --- Web framework & ASGI server ---
+fastapi>=0.110                 # Application framework, routing, dependency injection
+uvicorn>=0.29                  # ASGI server used by run_app.py and `uvicorn main:app`
+
+# --- Data layer ---
+sqlalchemy>=2.0                # ORM, sessions and the lightweight migration helper
+
+# --- Validation & schemas ---
+pydantic>=2.6                  # Request/response schemas for every feature router
+email-validator>=2.0           # Email validation for Pydantic EmailStr (auth register/login)
+
+# --- Security ---
+pyjwt>=2.8                    # HS256 access tokens (login, register, password reset)
+
+# --- Uploads ---
+python-multipart>=0.0.9        # multipart/form-data parsing for crop images & documents
