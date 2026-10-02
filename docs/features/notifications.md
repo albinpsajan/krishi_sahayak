@@ -7,7 +7,7 @@ In-app alerts for farmers and officers (English + Malayalam). One creation path 
 `create_notification(db, user_id, title, message, malayalam_message, notification_type, target_link)`
 
 ## Outputs
-Notification rows listed at `GET /api/notifications`, newest first, with unread counts in the UI navbar.
+Notification rows listed at `GET /api/notifications`, newest first. The unread count is derived **client-side** from `is_read` and rendered as a badge by `layouts/NavBar.jsx` — there is no server-side unread-count endpoint.
 
 ## Main files
 | File | Responsibility |

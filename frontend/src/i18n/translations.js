@@ -5,6 +5,10 @@ export const translations = {
   hi: { language: 'भाषा', weatherTitle: 'आपके खेत का मौसम', marketTitle: 'फसल भाव', refresh: 'रिफ्रेश', lastUpdated: 'अंतिम अपडेट', rainWarning: 'आज कीटनाशक का छिड़काव न करें।', weather: 'मौसम', market: 'मार्केट वॉच', voice: 'कृषि सहायक से पूछें', listening: 'सुन रहा है…', nav_today:'आज', nav_farm:'मेरा खेत', nav_help:'फसल देखभाल', nav_resources:'कृषि सेवाएं', nav_groups:'साथ मिलकर', nav_market:'बाज़ार', nav_planner:'स्मार्ट फार्म प्लानर' },
   ta: { language: 'மொழி', weatherTitle: 'உங்கள் பண்ணையின் வானிலை', marketTitle: 'பயிர் விலை', refresh: 'புதுப்பிக்கவும்', lastUpdated: 'கடைசியாக புதுப்பித்தது', rainWarning: 'இன்று பூச்சிக்கொல்லி தெளிப்பதை தவிர்க்கவும்.', weather: 'வானிலை', market: 'மார்க்கெட் வாட்ச்', voice: 'கிருஷி சகாயக்கிடம் கேளுங்கள்', listening: 'கேட்கிறது…', nav_today:'இன்று', nav_farm:'என் பண்ணை', nav_help:'பயிர் பராமரிப்பு', nav_resources:'பண்ணை சேவைகள்', nav_groups:'ஒன்றாக', nav_market:'சந்தை', nav_planner:'ஸ்மார்ட் பண்ணை திட்டம்' },
 };
+Object.assign(translations.en, { nav_input_guard: 'Input Guard' });
+Object.assign(translations.ml, { nav_input_guard: 'ഇൻപുട്ട് ഗാർഡ്' });
+Object.assign(translations.hi, { nav_input_guard: 'इनपुट गार्ड' });
+Object.assign(translations.ta, { nav_input_guard: 'உள்ளீடு சரிபார்' });
 export const cropLabels = {
   en: { banana:'Banana', coconut:'Coconut', paddy:'Paddy', pepper:'Pepper', tomato:'Tomato', onion:'Onion', potato:'Potato', arecanut:'Arecanut', rubber:'Rubber', ginger:'Ginger', turmeric:'Turmeric', vegetables:'Vegetables' },
   ml: { banana:'വാഴപ്പഴം', coconut:'തേങ്ങ', paddy:'നെല്ല്', pepper:'കുരുമുളക്', tomato:'തക്കാളി', onion:'ഉള്ളി', potato:'ഉരുളക്കിഴങ്ങ്', arecanut:'അടയ്ക്ക', rubber:'റബ്ബർ', ginger:'ഇഞ്ചി', turmeric:'മഞ്ഞൾ', vegetables:'പച്ചക്കറികൾ' },

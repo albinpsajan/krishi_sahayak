@@ -1,0 +1,12 @@
+/* Shared image behavior. Page composition lives in dashboardImages/featureImages. */
+.farm-image{display:block;overflow:hidden;background:#dbe1d7;min-width:0}
+.farm-image>img{display:block;width:100%;height:100%;object-fit:cover}
+.farm-image-fallback{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:8px;background:#e8ebe1;color:#52625d;text-align:center;font-size:10px;line-height:1.4}
+.farm-image-fallback>span{max-width:140px}
+.market-crop-photo.farm-image-fallback>span{display:none}
+.photo-credits-link{color:inherit;text-decoration:underline;text-underline-offset:3px;padding:8px 0}
+.photo-credits-link:focus-visible{outline:2px solid #3156ae;outline-offset:4px}
+.community-banner{background:linear-gradient(90deg,#f0f1e2f5,#f0f1e2e8),url('/assets/images/backgrounds/paddy-field-bg-800.webp') center/cover}
+.farm-photo-summary{background:linear-gradient(90deg,#f4f5ecf5,#f4f5ece5),url('/assets/images/backgrounds/coconut-farm-bg-800.webp') center/cover;padding:22px;border:1px solid #dce1df}
+.ig-intro-strip{background:linear-gradient(90deg,#e2ec68f5,#e2ec68e8),url('/assets/images/backgrounds/soil-texture-bg-800.webp') center 75%/cover}
+@media(prefers-reduced-motion:reduce){.farm-image>img{transition:none!important;transform:none!important}}

@@ -1,0 +1,128 @@
+[
+  {
+    "id": "banana",
+    "file": "crops/banana",
+    "files": [
+      "crops/banana.webp",
+      "crops/banana-400.webp",
+      "crops/banana.jpg"
+    ],
+    "source": "Wikimedia Commons",
+    "originalUrl": "https://commons.wikimedia.org/wiki/File:Banana_in_Kerala.jpg",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Banana_in_Kerala.jpg",
+    "author": "Vinayaraj",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attributionRequired": true,
+    "description": "Banana fruit growing in Kerala",
+    "notes": "Centre-cropped to 4:3; resized to 800x600 and 400x300; compressed as WebP (quality 80/78) and progressive JPEG (quality 82); embedded metadata removed. No generative editing. CC BY-SA adaptations retain the source license.",
+    "width": 800,
+    "height": 600,
+    "usedIn": "Farm crop cards, dashboard crop strip and selected-crop thumbnails"
+  },
+  {
+    "id": "coconut",
+    "file": "crops/coconut",
+    "files": [
+      "crops/coconut.webp",
+      "crops/coconut-400.webp",
+      "crops/coconut.jpg"
+    ],
+    "source": "Wikimedia Commons",
+    "originalUrl": "https://commons.wikimedia.org/wiki/File:Coconut_Tree_in_Kerala.jpg",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/0/01/Coconut_Tree_in_Kerala.jpg",
+    "author": "Athayyil at English Wikipedia",
+    "license": "Public domain",
+    "licenseUrl": "https://commons.wikimedia.org/wiki/File:Coconut_Tree_in_Kerala.jpg#Licensing",
+    "attributionRequired": false,
+    "description": "Coconut palm in Kavvayi, Kerala",
+    "notes": "Centre-cropped to 4:3; resized to 800x600 and 400x300; compressed as WebP (quality 80/78) and progressive JPEG (quality 82); embedded metadata removed. No generative editing. CC BY-SA adaptations retain the source license.",
+    "width": 800,
+    "height": 600,
+    "usedIn": "Farm crop cards, dashboard crop strip and selected-crop thumbnails"
+  },
+  {
+    "id": "paddy",
+    "file": "crops/paddy",
+    "files": [
+      "crops/paddy.webp",
+      "crops/paddy-400.webp",
+      "crops/paddy.jpg"
+    ],
+    "source": "Wikimedia Commons",
+    "originalUrl": "https://commons.wikimedia.org/wiki/File:Kerala_PaddyFields.jpg",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Kerala_PaddyFields.jpg",
+    "author": "Rajishev",
+    "license": "Public domain",
+    "licenseUrl": "https://commons.wikimedia.org/wiki/File:Kerala_PaddyFields.jpg#Licensing",
+    "attributionRequired": false,
+    "description": "Rice paddy fields in Kerala",
+    "notes": "Centre-cropped to 4:3; resized to 800x600 and 400x300; compressed as WebP (quality 80/78) and progressive JPEG (quality 82); embedded metadata removed. No generative editing. CC BY-SA adaptations retain the source license.",
+    "width": 800,
+    "height": 600,
+    "usedIn": "Farm crop cards, dashboard crop strip and selected-crop thumbnails"
+  },
+  {
+    "id": "pepper",
+    "file": "crops/pepper",
+    "files": [
+      "crops/pepper.webp",
+      "crops/pepper-400.webp",
+      "crops/pepper.jpg"
+    ],
+    "source": "Wikimedia Commons",
+    "originalUrl": "https://commons.wikimedia.org/wiki/File:Piper_nigrum_04236.jpg",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Piper_nigrum_04236.jpg",
+    "author": "Vengolis",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attributionRequired": true,
+    "description": "Black pepper growing in Kozhikode, Kerala",
+    "notes": "Centre-cropped to 4:3; resized to 800x600 and 400x300; compressed as WebP (quality 80/78) and progressive JPEG (quality 82); embedded metadata removed. No generative editing. CC BY-SA adaptations retain the source license.",
+    "width": 800,
+    "height": 600,
+    "usedIn": "Farm crop cards, dashboard crop strip and selected-crop thumbnails"
+  },
+  {
+    "id": "ginger",
+    "file": "crops/ginger",
+    "files": [
+      "crops/ginger.webp",
+      "crops/ginger-400.webp",
+      "crops/ginger.jpg"
+    ],
+    "source": "Wikimedia Commons",
+    "originalUrl": "https://commons.wikimedia.org/wiki/File:Ginger_rhizomes.jpg",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Ginger_rhizomes.jpg",
+    "author": "Judethedeus",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "attributionRequired": false,
+    "description": "Fresh ginger rhizomes on a table",
+    "notes": "Peripheral packaging cropped out. Centre-cropped to 4:3; resized to 800x600 and 400x300; compressed as WebP (quality 80/78) and progressive JPEG (quality 82); embedded metadata removed. No generative editing. CC BY-SA adaptations retain the source license.",
+    "width": 800,
+    "height": 600,
+    "usedIn": "Farm crop cards, dashboard crop strip and selected-crop thumbnails"
+  },
+  {
+    "id": "turmeric",
+    "file": "crops/turmeric",
+    "files": [
+      "crops/turmeric.webp",
+      "crops/turmeric-400.webp",
+      "crops/turmeric.jpg"
+    ],
+    "source": "Wikimedia Commons",
+    "originalUrl": "https://commons.wikimedia.org/wiki/File:Turmeric_rhizomes.jpg",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/6/62/Turmeric_rhizomes.jpg",
+    "author": "Lavinia Engelbrecht",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attributionRequired": true,
+    "description": "Turmeric rhizomes with a cut orange centre",
+    "notes": "Centre-cropped to 4:3; resized to 800x600 and 400x300; compressed as WebP (quality 80/78) and progressive JPEG (quality 82); embedded metadata removed. No generative editing. CC BY-SA adaptations retain the source license.",
+    "width": 800,
+    "height": 600,
+    "usedIn": "Farm crop cards, dashboard crop strip and selected-crop thumbnails"
+  }
+]

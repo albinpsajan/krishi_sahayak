@@ -150,7 +150,7 @@ All geometry and layout numbers come from deterministic rules in `apps/smart_pla
 |---|---|---|---|
 | GET | `/api/weather/current?lat=&lng=` | ✓ | Current weather from Open-Meteo (lat −90..90, lng −180..180). Cached 60 s. |
 | GET | `/api/weather/farm/{farmer_id}` | ✓ | Weather for the default pilot location (Palakkad, Kerala — 10.7867, 76.6548). |
-| GET | `/api/market-prices?commodity=&state=&district=&market=` | ✓ | Commodity prices. Defaults: `banana`, `Kerala`, `Thrissur`. Returns clearly labelled pilot fallback data. |
+| GET | `/api/market-prices?commodity=&state=&district=&market=` | ✓ | Official AGMARKNET mandi prices. Defaults: `banana`, `Kerala`, `Thrissur`; may fall back to the latest Kerala quote when the district has no current report. |
 | GET | `/api/market-prices/farmer/{farmer_id}` | ✓ | Default market snapshot for the farmer's workspace. |
 | POST | `/api/assistant/query` | ✓ | Body `{query, language, selected_crop?}`. Returns `{success, intent, reply, data}`; `intent` drives whether live data is attached. |
 

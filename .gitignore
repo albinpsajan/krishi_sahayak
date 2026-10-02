@@ -19,3 +19,6 @@ frontend/dist/
 backend/private_uploads/
 .runtime/
 *.log
+
+# Download cache for licensed image maintenance scripts (optimized assets are tracked)
+.image-work/

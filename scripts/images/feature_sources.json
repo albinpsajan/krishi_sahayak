@@ -1,0 +1,63 @@
+[
+  {
+    "id": "kerala-dusk", "source": "Unsplash", "author": "Nevin Mathew",
+    "originalUrl": "https://unsplash.com/photos/calm-river-flowing-through-a-field-at-dusk-ZU0vEHYiUpE",
+    "downloadUrl": "https://images.unsplash.com/photo-1765467116263-13192d211ade?fm=jpg&q=88&w=2000&fit=max",
+    "license": "Unsplash License", "licenseUrl": "https://unsplash.com/license", "attributionRequired": false,
+    "description": "Water channel through the Kole paddy fields at dusk, Thrissur, Kerala.",
+    "variants": [
+      {"id":"farmHero", "file":"hero/farm-hero", "width":1600, "height":900, "usedIn":"Today homepage hero"},
+      {"id":"paddyField", "file":"backgrounds/paddy-field-bg", "width":1200, "height":675, "usedIn":"Community section background on Today"}
+    ]
+  },
+  {
+    "id": "kerala-palms", "source": "Unsplash", "author": "Praswin Prakashan",
+    "originalUrl": "https://unsplash.com/photos/a-group-of-palm-trees-in-a-grassy-area-GdamYTCiV2A",
+    "downloadUrl": "https://images.unsplash.com/photo-1698070010730-6e0b7483a78b?fm=jpg&q=88&w=1800&fit=max",
+    "license": "Unsplash License", "licenseUrl": "https://unsplash.com/license", "attributionRequired": false,
+    "description": "Coconut palms at Bekal Beach Park, Kasaragod, Kerala. An illustrative grove, not a mapped farm.",
+    "variants": [
+      {"id":"smartPlanner", "file":"features/smart-planner", "width":1200, "height":800, "usedIn":"Smart Planner introduction"},
+      {"id":"coconutFarm", "file":"backgrounds/coconut-farm-bg", "width":1200, "height":675, "usedIn":"Farm summary background"}
+    ]
+  },
+  {
+    "id":"garden-tools", "source":"Unsplash", "author":"Annie Spratt",
+    "originalUrl":"https://unsplash.com/photos/selective-focus-photography-of-gardening-tool-on-brown-soil-j4fV6dKT9tw",
+    "downloadUrl":"https://images.unsplash.com/photo-1541779123709-488a159406aa?fm=jpg&q=88&w=1800&fit=max",
+    "license":"Unsplash License", "licenseUrl":"https://unsplash.com/license", "attributionRequired":false,
+    "description":"Garden fork and spade in cultivated soil; location not specified by the photographer.",
+    "variants":[
+      {"id":"inputGuard", "file":"features/input-guard", "width":1200, "height":800, "centering":[0.5,0.85], "usedIn":"Input Guard tool inspection visual"},
+      {"id":"soilCloseup", "file":"hero/soil-closeup", "width":1200, "height":800, "centering":[0.5,1], "usedIn":"Soil asset available for future page heroes"},
+      {"id":"soilTexture", "file":"backgrounds/soil-texture-bg", "width":1200, "height":675, "centering":[0.5,1], "usedIn":"Input Guard introduction strip background"}
+    ]
+  },
+  {
+    "id":"gujarat-produce", "source":"Unsplash", "author":"iKshana Productions",
+    "originalUrl":"https://unsplash.com/photos/basket-of-fresh-vegetables-including-beans-limes-and-eggplants-Jo0usTWfuSQ",
+    "downloadUrl":"https://images.unsplash.com/photo-1768729341107-4ec2a7807a70?fm=jpg&q=88&w=1800&fit=max",
+    "license":"Unsplash License", "licenseUrl":"https://unsplash.com/license", "attributionRequired":false,
+    "description":"Basket of beans, guavas and aubergines in Dang, Gujarat, India.",
+    "variants":[{"id":"marketPrice", "file":"features/market-price", "width":1200, "height":800, "usedIn":"Market price card, illustrative produce photograph"}]
+  },
+  {
+    "id":"drip-irrigation", "source":"Wikimedia Commons", "author":"Victor M. Vicente Selvas",
+    "originalUrl":"https://commons.wikimedia.org/wiki/File:Reg_gota_a_gota_017.JPG",
+    "downloadUrl":"https://upload.wikimedia.org/wikipedia/commons/1/14/Reg_gota_a_gota_017.JPG",
+    "license":"Public domain", "licenseUrl":"https://commons.wikimedia.org/wiki/Template:PD-self", "attributionRequired":false,
+    "description":"Drip irrigation beside a melon plant in Castelltallat, Catalonia; a system reference, not a Kerala installation.",
+    "variants":[{"id":"irrigation", "file":"features/irrigation-system", "width":1200, "height":800, "usedIn":"Smart Planner irrigation reference"}]
+  },
+  {
+    "id":"kerala-paddy", "source":"Wikimedia Commons", "author":"Rajishev",
+    "originalUrl":"https://commons.wikimedia.org/wiki/File:Kerala_PaddyFields.jpg",
+    "downloadUrl":"https://upload.wikimedia.org/wikipedia/commons/f/fa/Kerala_PaddyFields.jpg",
+    "license":"Public domain", "licenseUrl":"https://commons.wikimedia.org/wiki/Template:PD-self", "attributionRequired":false,
+    "description":"Rice paddy fields in Kerala. Used for field context, not live farm imagery.",
+    "variants":[
+      {"id":"weather", "file":"features/weather-field", "width":1200, "height":800, "usedIn":"Weather card, explicitly illustrative photograph"},
+      {"id":"officerSupport", "file":"features/officer-support", "width":1200, "height":800, "usedIn":"Crop care help card; field context with no implied staff identity"}
+    ]
+  }
+]

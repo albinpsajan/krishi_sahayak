@@ -65,6 +65,26 @@ export const uploadAPI = {
   },
 };
 
+export const inputGuardAPI = {
+  list: () => apiCall('/input-guard'),
+  submit: (payload) => apiCall('/input-guard/check', 'POST', payload),
+  update: (id, payload) => apiCall(`/input-guard/${id}`, 'PATCH', payload),
+  pending: () => apiCall('/input-guard/officer/pending'),
+  review: (id, decision, note) => apiCall(`/input-guard/officer/${id}/review`, 'PATCH', { decision, note }),
+  upload: async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const token = localStorage.getItem('krishi_token');
+    const res = await fetch(`${API_BASE}/input-guard/upload`, { method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: formData });
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({}));
+      const detail = error.detail;
+      throw new Error(typeof detail === 'string' ? detail : detail?.message || 'Photo upload failed.');
+    }
+    return res.json();
+  },
+};
+
 export const casesAPI = {
   getCases: () => apiCall('/cases', 'GET'),
   getCaseDetail: (id) => apiCall(`/cases/${id}`, 'GET'),

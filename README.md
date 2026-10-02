@@ -45,7 +45,7 @@ AI-assisted, officer-verified agricultural administration platform connecting **
 | **Voice / text assistant** | Browser Web Speech API input with rule-based intent detection, typed-input fallback |
 | **Farm operations** | Plots and crop seasons, shared resource catalogue, booking requests, farmer cooperation groups, cashbook and a document checklist |
 | **Community board** | Crop-wise discussion boards with officer moderation (moderation ≠ agronomic verification) |
-| **Market watch** | Commodity prices by state / district / market with a labelled pilot fallback dataset |
+| **Market watch** | Official AGMARKNET mandi prices by crop, state, district and market |
 
 ### Smart Planner
 
@@ -64,7 +64,7 @@ The selected boundary is stored as WGS84 GeoJSON and projected to local metres f
 
 ### Live data & assistant
 
-Weather is fetched through the backend from **Open-Meteo** and cached for 60 seconds (default coordinates: Palakkad, Kerala — 10.7867, 76.6548). Market prices use the modular market service and currently return clearly labelled **pilot fallback data** until a verified state feed is configured. The dashboard keeps the last good response when a refresh fails. English, Malayalam, Hindi and Tamil are stored locally as the selected interface language; voice uses the browser Web Speech API with typed input as a fallback.
+Weather is fetched through the backend from **Open-Meteo** and cached for 60 seconds (default coordinates: Palakkad, Kerala — 10.7867, 76.6548). Market prices use official AGMARKNET records from the public portal API, with data.gov.in as an optional secondary source when `DATA_GOV_API_KEY` is configured. The dashboard keeps the last good response when a refresh fails. English, Malayalam, Hindi and Tamil are stored locally as the selected interface language; voice uses the browser Web Speech API with typed input as a fallback.
 
 ---
 
@@ -319,7 +319,7 @@ To start from a clean database, stop the server and delete `backend/krishi_sahay
 
 ## Known limitations
 
-- **Market prices are pilot fallback data**, clearly labelled as such, until a verified state feed is configured. The service is modular so a real provider can be dropped in.
+- **Market prices come from official AGMARKNET records.** Missing records stay unavailable rather than being estimated, and the payload names the actual market and district used.
 - **CropDoctor runs on a local knowledge base.** An external vision provider can be enabled with `CROP_DOCTOR_API_KEY`, but no diagnosis is auto-authoritative — every assessment stays *preliminary* until an officer reviews it.
 - **Irrigation planning is not implemented.** `apps/farms/` holds the `Irrigation*` models as placeholders; the plan engine and its router are future work (see [`docs/features/irrigation.md`](docs/features/irrigation.md)).
 - **SQLite only.** Fine for the pilot; point `DATABASE_URL` at PostgreSQL for multi-user deployment.

@@ -14,6 +14,7 @@ import CashbookPage from './pages/CashbookPage';
 import MarketWatchPage from './pages/MarketWatchPage';
 import CommunityPage from './pages/CommunityPage';
 import SmartPlannerPage from './pages/SmartPlannerPage';
+import InputGuardPage from './pages/InputGuardPage';
 import { SchemesPage, DocumentsPage } from './pages/SupportPage';
 import { AccountPage, AlertsPage } from './pages/AccountPage';
 import CropReportForm from './components/CropReportForm';
@@ -21,7 +22,7 @@ import ReportDetail from './components/ReportDetail';
 import { LanguageProvider } from './i18n/languageContext';
 import VoiceAssistantPanel from './components/voice/VoiceAssistantPanel';
 
-const validTabs = ['today','farm','help','resources','groups','market','planner','cashbook','schemes','documents','profile','notifications','community'];
+const validTabs = ['today','farm','help','input-guard','resources','groups','market','planner','cashbook','schemes','documents','profile','notifications','community'];
 const getTab = () => validTabs.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'today';
 
 function AppContent() {
@@ -48,6 +49,7 @@ function AppContent() {
       {tab==='today' && (staff ? <CropCarePage reports={data.cases} staff onCase={setReport}/> : <TodayPage user={data.profile||user} data={data} navigate={navigate} onReport={()=>setReportOpen(true)} onCase={setReport}/>)}
       {tab==='farm' && <FarmPage plots={data.plots} mutate={mutate} onReport={()=>setReportOpen(true)}/>}
       {tab==='help' && <CropCarePage reports={data.cases} staff={staff} onReport={()=>setReportOpen(true)} onCase={setReport}/>}
+      {tab==='input-guard' && <InputGuardPage isOfficer={staff} plots={data.plots}/>}
       {tab==='resources' && <ResourcesPage resources={data.resources} bookings={data.bookings} staff={staff} mutate={mutate}/>}
       {tab==='groups' && <TogetherPage groups={data.groups} staff={staff} mutate={mutate}/>}
       {tab==='cashbook' && <CashbookPage entries={data.cashbook} staff={staff} mutate={mutate}/>}

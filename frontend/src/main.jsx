@@ -6,6 +6,8 @@ import './responsive.css';
 import './readability.css';
 import './smartPlanner.css';
 import './liveData.css';
+import './inputGuard.css';
+import './imageAssets.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

@@ -16,3 +16,4 @@ from apps import farms  # noqa: F401
 from apps import operations  # noqa: F401
 from apps import community  # noqa: F401
 from apps import smart_planner  # noqa: F401
+from apps import input_guard  # noqa: F401

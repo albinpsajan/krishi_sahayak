@@ -1,0 +1,167 @@
+/* Context photographs stay separate from live measurements and user uploads. */
+.live-card { container-type: inline-size; }
+.live-card .price-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.live-card .price-grid > div { min-width: 0; }
+.live-card .price-grid strong { overflow-wrap: anywhere; }
+@container (max-width: 310px) {
+  .live-card .weather-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .live-card .price-grid { grid-template-columns: 1fr; }
+  .live-card .price-grid > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+  .live-card .price-grid small { grid-column: 2; text-align: right; }
+}
+.live-card .feature-photo-strip {
+  position: relative;
+  height: 82px;
+  margin: -19px -19px 18px;
+  overflow: hidden;
+  border-radius: 9px 9px 0 0;
+  background: #243d44;
+}
+.feature-photo-strip > picture,
+.planner-irrigation-reference > picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.feature-photo-strip img,
+.planner-irrigation-reference img,
+.ig-inspection-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .45s ease;
+}
+.feature-photo-strip::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 15%, #112832b8);
+  pointer-events: none;
+}
+.feature-photo-strip figcaption {
+  position: absolute;
+  z-index: 1;
+  left: 16px;
+  right: 16px;
+  bottom: 10px;
+  color: #fff;
+  font-size: 10px;
+  line-height: 1.45;
+  letter-spacing: .2px;
+}
+.market-crop-choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+.market-crop-choice .market-crop-photo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+  overflow: hidden;
+  border: 1px solid #d5dedb;
+  border-radius: 50%;
+  background: #edf0e7;
+}
+.market-crop-photo img { width: 100%; height: 100%; object-fit: cover; }
+.market-crop-choice .market-crop-select {
+  min-width: 0;
+  flex: 1;
+  margin: 0;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 5px;
+}
+.market-crop-choice .market-crop-select select { width: 100%; min-width: 0; }
+
+/* Only the planner introduction gets a photographic layer; maps remain maps. */
+.planner-intro-hero.planner-photo-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  min-height: 390px;
+  border: 0;
+  background: #193645;
+  color: #fff;
+}
+.planner-photo-hero .planner-hero-photo {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.planner-hero-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .7s ease;
+}
+.planner-photo-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(100deg, #112735eb, #11273599 70%, #11273577);
+}
+.planner-hero-copy { position: relative; }
+.planner-photo-hero .planner-hero-copy > svg { color: #e2ec68; margin-bottom: 26px; }
+.planner-photo-hero .planner-hero-copy h2 { color: #fff; }
+.planner-photo-hero .planner-hero-copy p,
+.planner-photo-hero .planner-hero-copy small { color: #f4f5ec; }
+.planner-photo-hero .planner-hero-copy small { align-items: flex-start; line-height: 1.5; }
+.planner-hero-copy small svg { flex-shrink: 0; }
+.planner-photo-hero .button { background: #e2ec68; border-color: #e2ec68; color: #192d3e; }
+.planner-irrigation-reference {
+  position: relative;
+  overflow: hidden;
+  height: 102px;
+  margin: 15px 0 0;
+  border-radius: 5px;
+  background: #e5ebe5;
+}
+.planner-irrigation-reference figcaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 22px 12px 9px;
+  color: #fff;
+  background: linear-gradient(transparent, #112735dc);
+  font-size: 10px;
+  line-height: 1.5;
+}
+.ig-photo-note .ig-inspection-photo {
+  display: block;
+  width: calc(100% + 48px);
+  height: 155px;
+  margin: -24px -24px 22px;
+  overflow: hidden;
+  background: #435448;
+}
+.ig-photo-note .ig-inspection-photo img { object-position: center; }
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .live-card:hover .feature-photo-strip img,
+  .planner-photo-hero:hover .planner-hero-photo img,
+  .ig-photo-note:hover .ig-inspection-photo img { transform: scale(1.035); }
+}
+@media (max-width: 760px) {
+  .planner-intro-hero.planner-photo-hero { min-height: 350px; }
+  .ig-photo-note .ig-inspection-photo { width: calc(100% + 34px); margin: -20px -17px 19px; height: 130px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feature-photo-strip img,
+  .planner-hero-photo img,
+  .planner-irrigation-reference img,
+  .ig-inspection-photo img { transition: none; }
+}

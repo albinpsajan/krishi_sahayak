@@ -1,0 +1,152 @@
+/* Documentary photography on the dashboard and farm records.
+   Specific page classes keep these rules independent of the older journal styles. */
+.season-banner.photo-season-banner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 440px;
+  height: auto;
+  overflow: hidden;
+  isolation: isolate;
+  background: #152c38;
+}
+.photo-season-banner .season-photo {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+}
+.season-banner.photo-season-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(95deg, #112937eb 0%, #112937b8 48%, #11293728 100%), linear-gradient(0deg, #142b388c, transparent 60%);
+  transform: none;
+  pointer-events: none;
+}
+.photo-season-banner .season-copy {
+  padding: clamp(25px, 3vw, 40px) clamp(24px, 3vw, 38px) 25px;
+  max-width: 560px;
+}
+.photo-season-banner .season-copy h2 {
+  font-size: clamp(33px, 3.5vw, 48px);
+  line-height: 1.09;
+  text-wrap: balance;
+  color: #fffdf2;
+}
+.photo-season-banner .season-copy p {
+  max-width: 310px;
+  color: #f3f4e8dc;
+  line-height: 1.65;
+}
+.photo-season-banner .season-copy .eyebrow { color: #e2ec68; }
+.photo-season-banner .season-copy .banner-link { color: #f3f6b2; }
+.season-shortcuts {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 0 clamp(20px, 3vw, 32px) 25px;
+  z-index: 2;
+}
+.season-shortcut {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 80px;
+  padding: 15px;
+  text-align: left;
+  background: #203948cc;
+  color: #fffef3;
+  border: 1px solid #ffffff4a;
+  border-radius: 3px;
+  box-shadow: 0 6px 20px #06172216;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: background .2s, border-color .2s, transform .2s;
+}
+.season-shortcut > svg { flex-shrink: 0; color: #e2ec68; }
+.season-shortcut > svg:last-child { width: 15px; margin-left: auto; color: #fffef3; }
+.season-shortcut span { min-width: 0; }
+.season-shortcut strong { display: block; font-size: 13px; font-weight: 600; line-height: 1.4; }
+.season-shortcut small { display: block; font-size: 10px; line-height: 1.5; margin-top: 4px; color: #eef2e7ce; }
+.season-shortcut:hover { background: #1c3949f2; border-color: #e2ec689c; transform: translateY(-3px); }
+.season-shortcut:focus-visible, .photo-mini-plot:focus-visible { outline: 3px solid #e2ec68; outline-offset: 4px; }
+.photo-season-banner .season-photo img { transition: transform 1s cubic-bezier(.2,.7,.2,1); }
+.photo-season-banner:hover .season-photo img { transform: scale(1.035); }
+
+.plot-strip .photo-mini-plot {
+  overflow: hidden;
+  padding: 0 0 16px;
+  border-radius: 3px;
+  background: #fffef8;
+  color: #192d3e;
+  border-color: #d9dfdf;
+}
+.mini-plot-photo { position: relative; width: 100%; height: 128px; margin-bottom: 15px; overflow: hidden; background: #d9e0d4; }
+.mini-plot-photo .farm-image { height: 100%; width: 100%; }
+.mini-plot-photo::after { content: ''; position: absolute; inset: 40% 0 0; background: linear-gradient(transparent, #152b3bc4); pointer-events: none; }
+.crop-reference-label { position: absolute; z-index: 1; bottom: 9px; left: 12px; color: #fffef5; font-size: 8px; line-height: 1.4; letter-spacing: .02em; }
+.mini-plot-arrow { position: absolute; z-index: 1; right: 9px; top: 9px; width: 28px; height: 28px; display: grid; place-items: center; background: #f8f9eceb; color: #192d3e; border-radius: 50%; }
+.photo-mini-plot h3, .photo-mini-plot > p, .photo-mini-plot .plot-stage { margin-left: 14px; margin-right: 12px; }
+.photo-mini-plot h3 { color: #192d3e; font-size: 20px; }
+.plot-strip .photo-mini-plot > p { color: #62727a; line-height: 1.6; }
+.photo-mini-plot .plot-stage { color: #4c6260; font-size: 10px; margin-top: 12px; position: static; }
+.mini-plot-photo img, .photo-plot-card .plot-art img { transition: transform .6s ease; }
+.photo-mini-plot:hover img, .photo-plot-card:hover .plot-art img { transform: scale(1.055); }
+
+.today-rail .help-panel.photo-help-panel { padding: 0; border-radius: 3px; overflow: hidden; background: #f0f1e6; }
+.photo-help-panel .help-field-photo { height: 140px; width: 100%; }
+.photo-help-panel .help-panel-copy { padding: 21px; }
+.photo-help-panel .help-panel-copy h3 { color: #243d48; }
+.photo-help-panel .outlined-icon { background: #e2e8db; color: #456262; }
+.photo-help-panel .help-panel-copy p { color: #657574; }
+.photo-help-panel .help-panel-copy small { color: #526663; line-height: 1.5; }
+
+.photo-plot-card.plot-card { border-radius: 3px; }
+.photo-plot-card .plot-art { height: 210px; background: #e0e5d9; }
+.photo-plot-card .plot-art .farm-image { width: 100%; height: 100%; }
+.photo-plot-card .plot-art > .farm-image-fallback { position: relative; inset: auto; font-family: inherit; font-size: 10px; opacity: 1; }
+.photo-plot-card .plot-art::after { content: ''; position: absolute; inset: 50% 0 0; background: linear-gradient(transparent, #142a3ba6); pointer-events: none; }
+.photo-plot-card .plot-art .crop-reference-label { font-family: inherit; opacity: 1; font-size: 9px; left: 17px; bottom: 13px; }
+.photo-plot-card .plot-art .badge { background: #f8f8ede8; color: #223d48; backdrop-filter: blur(10px); border: 1px solid #ffffff73; z-index: 1; }
+.photo-plot-card .card-body h2 { color: #203c47; }
+.farm-crop-preview { display: flex; align-items: center; gap: 13px; padding: 10px; margin: 0 0 18px; border: 1px solid #dce1df; background: #f4f5ed; }
+.farm-crop-preview .farm-image { width: 66px; height: 54px; flex-shrink: 0; border-radius: 2px; overflow: hidden; }
+.farm-crop-preview strong { display: block; font-size: 13px; color: #233e49; }
+.farm-crop-preview small { display: block; font-size: 10px; margin-top: 5px; color: #697a7d; }
+
+@media (max-width: 1200px) and (min-width: 1001px) {
+  .season-shortcut { padding: 12px; gap: 8px; }
+  .season-shortcut > svg:first-child { display: none; }
+  .season-shortcut strong { font-size: 12px; }
+}
+@media (max-width: 600px) {
+  .season-banner.photo-season-banner { min-height: 455px; }
+  .photo-season-banner .season-copy { padding: 27px 24px 24px; }
+  .photo-season-banner .season-copy h2 { font-size: 36px; max-width: 390px; }
+  .season-shortcuts { gap: 8px; padding: 0 17px 18px; }
+  .season-shortcut { gap: 8px; padding: 12px 10px; align-items: flex-start; }
+  .season-shortcut > svg:first-child { width: 18px; }
+  .season-shortcut > svg:last-child { display: none; }
+  .season-shortcut strong { font-size: 12px; }
+  .season-shortcut small { font-size: 10px; }
+  .mini-plot-photo { height: 106px; }
+  .photo-mini-plot h3 { font-size: 17px; }
+  .photo-mini-plot h3, .photo-mini-plot > p, .photo-mini-plot .plot-stage { margin-left: 11px; margin-right: 9px; }
+  .photo-plot-card .plot-art { height: 165px; }
+}
+@media (max-width: 420px) {
+  .mini-plot-photo { height: 170px; }
+  .photo-mini-plot h3 { font-size: 24px; }
+  .photo-mini-plot h3, .photo-mini-plot > p, .photo-mini-plot .plot-stage { margin-left: 18px; }
+  .photo-plot-card .plot-art { height: 220px; }
+  .photo-mini-plot .plot-stage { font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .season-shortcut, .photo-season-banner .season-photo img, .mini-plot-photo img, .photo-plot-card .plot-art img { transition: none; }
+  .season-shortcut:hover, .photo-season-banner:hover .season-photo img, .photo-mini-plot:hover img, .photo-plot-card:hover .plot-art img { transform: none; }
+}

@@ -1,5 +1,14 @@
 KEYWORDS = {"weather": ["weather", "rain", "temperature", "കാലാവസ്ഥ", "മഴ", "मौसम", "बारिश", "வானிலை", "மழை"], "market_price": ["price", "market", "rate", "വില", "മാർക്കറ്റ്", "कीमत", "बाज़ार", "भाव", "விலை", "சந்தை"], "planner": ["smart planner", "irrigation", "plot", "ജലസേചനം", "പ്ലാൻ", "सिंचाई", "खेत", "பாசனம்", "திட்டம்"], "resource": ["tractor", "equipment", "service", "ട്രാക്ടർ", "ट्रैक्टर", "यंत्र", "டிராக்டர்"], "crop_report": ["crop problem", "disease", "report", "രോഗം", "समस्या", "நோய்"], "scheme": ["scheme", "subsidy", "പദ്ധതി", "योजना", "திட்டம்"], "documents": ["document", "certificate", "രേഖ", "दस्तावेज", "ஆவணம்"]}
 
+KEYWORDS = {
+    "input_guard_note": ["officer note", "read my note", "what did the officer say", "ഇൻപുട്ട് ഗാർഡ് കുറിപ്പ്", "अधिकारी नोट", "அலுவலர் குறிப்பு"],
+    "input_guard_weather": ["weather warning", "read weather", "spray warning", "കാലാവസ്ഥ മുന്നറിയിപ്പ്", "मौसम चेतावनी", "வானிலை எச்சரிக்கை"],
+    "input_guard_result": ["latest input result", "latest product check", "explain latest result", "input guard result", "ഇൻപുട്ട് ഫലം", "ताज़ा इनपुट जाँच", "சரிபார்ப்பை விளக்கு"],
+    "input_guard": ["input guard", "check fertilizer", "check pesticide", "check a fertilizer", "check a pesticide", "is this product safe", "is this safe to use", "product safety", "വളം പരിശോധിക്കുക", "കീടനാശിനി പരിശോധിക്കുക", "खाद जाँचो", "कीटनाशक जाँचो", "உரத்தை சரிபார்க்கவும்", "பூச்சிக்கொல்லியை சரிபார்க்கவும்"],
+    **KEYWORDS,
+}
+
+
 def detect_intent(query):
     text = (query or "").lower()
     for intent, words in KEYWORDS.items():
