@@ -26,7 +26,7 @@ export const apiCall = async (endpoint, method = 'GET', body = null, token = nul
       const err = await res.json().catch(() => ({ detail: 'Network request failed' }));
       // Backend errors carry {code, message}; fall back to raw detail for simple errors
       const detail = err.detail;
-      const msg = typeof detail === 'object' && detail !== null ? detail.message : detail;
+      const msg = Array.isArray(detail) ? detail.map(item => `${item.loc?.slice(1).join('.') || 'Input'}: ${item.msg}`).join('; ') : typeof detail === 'object' && detail !== null ? detail.message : detail;
       throw new Error(msg || `Error ${res.status}`);
     }
     return await res.json();

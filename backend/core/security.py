@@ -6,6 +6,9 @@ require_farmer / require_officer guards used by every feature router.
 """
 
 from datetime import datetime, timedelta
+import hashlib
+import hmac
+import secrets
 
 import jwt
 from fastapi import Depends, HTTPException, status
@@ -20,11 +23,20 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/login")
 
 
 def hash_password(password: str) -> str:
-    return __import__("hashlib").sha256(password.encode("utf-8")).hexdigest()
+    salt = secrets.token_hex(16)
+    digest = hashlib.pbkdf2_hmac("sha256", password.encode(), salt.encode(), 600000).hex()
+    return f"pbkdf2_sha256$600000${salt}${digest}"
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return hash_password(plain_password) == hashed_password
+    if not hashed_password.startswith("pbkdf2_sha256$"):
+        return hmac.compare_digest(hashlib.sha256(plain_password.encode()).hexdigest(), hashed_password)
+    try:
+        _, rounds, salt, expected = hashed_password.split("$")
+        actual = hashlib.pbkdf2_hmac("sha256", plain_password.encode(), salt.encode(), int(rounds)).hex()
+        return hmac.compare_digest(actual, expected)
+    except (ValueError, TypeError):
+        return False
 
 
 def create_access_token(data: dict, expires_delta: timedelta = None) -> str:

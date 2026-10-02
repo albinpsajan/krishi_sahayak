@@ -3,14 +3,14 @@
 from typing import Optional
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class UserRegister(BaseModel):
     """Step 1 signup: email + username + password. Basic details collected after login."""
-    email: str
-    username: str
-    password: str
+    email: str = Field(max_length=254, pattern=r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
+    username: str = Field(min_length=3, max_length=60, pattern=r"^[a-zA-Z0-9_.-]+$")
+    password: str = Field(min_length=8, max_length=128)
     full_name: str = ""
     role: str = ""  # optional here; selected during onboarding if omitted
     phone: Optional[str] = None

@@ -1,188 +1,67 @@
-import React, { useState, useEffect } from 'react';
-import Header from './layouts/Header';
-import NavBar from './layouts/NavBar';
-import FarmerDashboard from './pages/FarmerDashboard';
-import OfficerDashboard from './pages/OfficerDashboard';
-import CasesPage from './pages/CasesPage';
-import SubsidiesPage from './pages/SubsidiesPage';
-import NotificationsPage from './pages/NotificationsPage';
-import ProfilePage from './pages/ProfilePage';
-import AuditPage from './pages/AuditPage';
-import CropCaseWizardModal from './components/CropCaseWizardModal';
-import CaseDetailModal from './components/CaseDetailModal';
-import AutoClerkModal from './components/AutoClerkModal';
-import useAuthGate from './hooks/useAuthGate';
-import useAppData from './hooks/useAppData';
-import LoginPage from './pages/LoginPage';
-import { subsidiesAPI, officerAPI } from './services/api';
-import { isFarmerRole, isOfficerRole, homeTabForRole } from './utils/roles';
+﻿import React, { useEffect, useState } from 'react';
+import { AlertCircle, CheckCircle2, RefreshCw, X } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { authAPI } from './services/api';
+import useWorkspace from './hooks/useWorkspace';
+import WelcomePage from './pages/WelcomePage';
+import WorkspaceLayout from './layouts/WorkspaceLayout';
+import TodayPage from './pages/TodayPage';
+import FarmPage from './pages/FarmPage';
+import CropCarePage from './pages/CropCarePage';
+import ResourcesPage from './pages/ResourcesPage';
+import TogetherPage from './pages/TogetherPage';
+import CashbookPage from './pages/CashbookPage';
+import MarketWatchPage from './pages/MarketWatchPage';
+import CommunityPage from './pages/CommunityPage';
+import SmartPlannerPage from './pages/SmartPlannerPage';
+import { SchemesPage, DocumentsPage } from './pages/SupportPage';
+import { AccountPage, AlertsPage } from './pages/AccountPage';
+import CropReportForm from './components/CropReportForm';
+import ReportDetail from './components/ReportDetail';
+import { LanguageProvider } from './i18n/languageContext';
+import VoiceAssistantPanel from './components/voice/VoiceAssistantPanel';
 
-export default function App() {
-  const {
-    user, setUser, authChecked, needsOnboarding, setNeedsOnboarding, handleLogout,
-  } = useAuthGate();
-  const {
-    cases, subsidies, applications, auditLogs, notifications, userProfile, loadAllData,
-  } = useAppData(user);
+const validTabs = ['today','farm','help','resources','groups','market','planner','cashbook','schemes','documents','profile','notifications','community'];
+const getTab = () => validTabs.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'today';
 
-  const [currentTab, setCurrentTab] = useState('home');
-  const [showNewCaseModal, setShowNewCaseModal] = useState(false);
-  const [selectedCase, setSelectedCase] = useState(null);
-  const [autoClerkReport, setAutoClerkReport] = useState(null);
-  const [lang, setLang] = useState('en'); // 'en' or 'ml'
-
-  // Route to the portal matching the role once the user is loaded
+function AppContent() {
+  const [user,setUser] = useState(null), [ready,setReady] = useState(false);
+  const [tab,setTab] = useState(getTab), [reportOpen,setReportOpen] = useState(false), [report,setReport] = useState(null);
+  const [toast,setToast] = useState(null), [online,setOnline] = useState(navigator.onLine);
+  const { data,loading,error,refresh } = useWorkspace(user);
   useEffect(() => {
-    if (user?.profile_completed) {
-      setCurrentTab(homeTabForRole(user.role));
-    }
-  }, [user]);
-
-  const isFarmer = isFarmerRole(user);
-  const isOfficer = isOfficerRole(user);
-
-  const refreshData = async () => {
-    await loadAllData();
-  };
-
-  // ---- Auth gate: login page & onboarding before anything else ----
-  if (!authChecked) {
-    return (
-      <div className="auth-page">
-        <div className="auth-panel" style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
-          🌱 Loading KrishiSahayak AI...
-        </div>
-      </div>
-    );
-  }
-
-  if (!user || needsOnboarding) {
-    return (
-      <AuthGateWrapper
-        needsOnboarding={needsOnboarding}
-        setUser={setUser}
-        setNeedsOnboarding={setNeedsOnboarding}
-        refreshData={refreshData}
-      />
-    );
-  }
-
-  return (
-    <div className="app-root">
-      <Header lang={lang} onToggleLang={() => setLang(lang === 'en' ? 'ml' : 'en')} onLogout={handleLogout} />
-
-      <NavBar
-        isFarmer={isFarmer}
-        isOfficer={isOfficer}
-        currentTab={currentTab}
-        setCurrentTab={setCurrentTab}
-        unreadCount={notifications.filter((n) => !n.is_read).length}
-      />
-
-      <main className="main-content">
-        {isFarmer && currentTab === 'home' && (
-          <FarmerDashboard
-            user={user}
-            cases={cases}
-            subsidies={subsidies}
-            auditLogs={auditLogs}
-            lang={lang}
-            onNewCase={() => setShowNewCaseModal(true)}
-            onViewCase={setSelectedCase}
-          />
-        )}
-
-        {isOfficer && currentTab === 'dashboard' && (
-          <OfficerDashboard cases={cases} applications={applications} onReviewCase={setSelectedCase} />
-        )}
-
-        {currentTab === 'cases' && (
-          <CasesPage cases={cases} onViewCase={setSelectedCase} />
-        )}
-
-        {currentTab === 'subsidies' && (
-          <SubsidiesPage
-            subsidies={subsidies}
-            applications={applications}
-            isFarmer={isFarmer}
-            isOfficer={isOfficer}
-            onApply={async (scheme) => {
-              try {
-                await subsidiesAPI.apply({ scheme_id: scheme.id, requested_subsidy_amount: scheme.max_subsidy_amount });
-                alert('Subsidy Application submitted to SubsidyChain Rule Engine!');
-                await refreshData();
-              } catch (e) {
-                alert('Error submitting application: ' + e.message);
-              }
-            }}
-            onDecide={async (application, decision) => {
-              await subsidiesAPI.decideApplication(application.id, decision);
-              await refreshData();
-            }}
-          />
-        )}
-
-        {currentTab === 'notifications' && <NotificationsPage notifications={notifications} />}
-
-        {currentTab === 'profile' && <ProfilePage userProfile={userProfile} />}
-
-        {currentTab === 'audit' && <AuditPage auditLogs={auditLogs} />}
-      </main>
-
-      {/* MODAL: NEW CROP CASE & CROPDOCTOR AI WIZARD */}
-      {showNewCaseModal && (
-        <CropCaseWizardModal
-          onClose={() => setShowNewCaseModal(false)}
-          onSuccess={async () => {
-            setShowNewCaseModal(false);
-            await refreshData();
-          }}
-        />
-      )}
-
-      {/* MODAL: CASE DETAIL & OFFICER REVIEW */}
-      {selectedCase && (
-        <CaseDetailModal
-          caseData={selectedCase}
-          isOfficer={isOfficer}
-          onClose={() => setSelectedCase(null)}
-          onUpdate={async () => {
-            setSelectedCase(null);
-            await refreshData();
-          }}
-          onGenerateAutoClerk={async (id) => {
-            const rep = await officerAPI.getAutoClerkReport(id);
-            setAutoClerkReport(rep);
-          }}
-        />
-      )}
-
-      {/* MODAL: AUTOCLERK REPORT DISPLAY */}
-      {autoClerkReport && <AutoClerkModal report={autoClerkReport} onClose={() => setAutoClerkReport(null)} />}
-    </div>
-  );
+    if (!localStorage.getItem('krishi_token')) {setReady(true);return;}
+    authAPI.getMe().then(setUser).catch(()=>localStorage.removeItem('krishi_token')).finally(()=>setReady(true));
+  }, []);
+  useEffect(() => {const change=()=>setTab(getTab()); window.addEventListener('hashchange',change);return ()=>window.removeEventListener('hashchange',change);}, []);
+  useEffect(() => {const change=()=>setOnline(navigator.onLine);window.addEventListener('online',change);window.addEventListener('offline',change);return ()=>{window.removeEventListener('online',change);window.removeEventListener('offline',change);};}, []);
+  useEffect(() => {if(!toast)return; const timer=setTimeout(()=>setToast(null),7000);return ()=>clearTimeout(timer);}, [toast]);
+  const navigate = value => {location.hash=value;setTab(value);window.scrollTo({top:0,behavior:'instant'});};
+  async function mutate(operation,message) {try{await operation();await refresh();setToast({message,kind:'success'});return true;}catch(e){setToast({message:e.message,kind:'error'});return false;}}
+  const logout=()=>{localStorage.removeItem('krishi_token');setUser(null);setReport(null);setReportOpen(false);setToast(null);navigate('today');};
+  const staff=user?.role!=='FARMER';
+  if(!ready) return <div className="app-loading"><span className="loading-leaf">✳</span><p>Opening your farm workspace…</p></div>;
+  if(!user) return <WelcomePage onLogin={u=>{setUser(u);navigate('today');}}/>;
+  return <WorkspaceLayout user={data.profile ? {...user,full_name:data.profile.full_name} : user} tab={tab} navigate={navigate} notifications={data.notifications} onLogout={logout} online={online}>
+    {error && <div className="error-banner" role="alert"><AlertCircle size={19}/><span>Could not refresh your workspace: {error}</span><button onClick={refresh}><RefreshCw size={16}/> Retry</button></div>}
+    {loading && !data.profile ? <div className="loading-content">Gathering your farm records…</div> : <>
+      {tab==='today' && (staff ? <CropCarePage reports={data.cases} staff onCase={setReport}/> : <TodayPage user={data.profile||user} data={data} navigate={navigate} onReport={()=>setReportOpen(true)} onCase={setReport}/>)}
+      {tab==='farm' && <FarmPage plots={data.plots} mutate={mutate} onReport={()=>setReportOpen(true)}/>}
+      {tab==='help' && <CropCarePage reports={data.cases} staff={staff} onReport={()=>setReportOpen(true)} onCase={setReport}/>}
+      {tab==='resources' && <ResourcesPage resources={data.resources} bookings={data.bookings} staff={staff} mutate={mutate}/>}
+      {tab==='groups' && <TogetherPage groups={data.groups} staff={staff} mutate={mutate}/>}
+      {tab==='cashbook' && <CashbookPage entries={data.cashbook} staff={staff} mutate={mutate}/>}
+      {tab==='market' && <MarketWatchPage navigate={navigate}/>}
+      {tab==='planner' && <SmartPlannerPage staff={staff}/>}
+      {tab==='community' && <CommunityPage staff={staff}/>}
+      {tab==='schemes' && <SchemesPage schemes={data.schemes} navigate={navigate}/>}
+      {tab==='documents' && <DocumentsPage available={data.documents} staff={staff} mutate={mutate}/>}
+      {tab==='profile' && <AccountPage key={data.profile?.id} profile={data.profile} staff={staff} mutate={mutate}/>}
+      {tab==='notifications' && <AlertsPage notifications={data.notifications} mutate={mutate}/>}
+    </>}
+    {reportOpen && <CropReportForm userId={user.id} onClose={()=>setReportOpen(false)} mutate={mutate}/>}
+    {report && <ReportDetail report={report} staff={staff} mutate={mutate} onClose={()=>setReport(null)}/>}<VoiceAssistantPanel/>
+    {toast && createPortal(<div className={`toast ${toast.kind}`} role={toast.kind==='error'?'alert':'status'}>{toast.kind==='error'?<AlertCircle size={20}/>:<CheckCircle2 size={20}/>}<span>{toast.message}</span><button aria-label="Dismiss message" onClick={()=>setToast(null)}><X size={17}/></button></div>,document.querySelector('dialog[open] .modal-inner') || document.body)}
+  </WorkspaceLayout>;
 }
-
-// Small wrapper so App stays readable: wires LoginPage to auth success handling
-function AuthGateWrapper({ needsOnboarding, setUser, setNeedsOnboarding, refreshData }) {
-  const [token, setToken] = [localStorage.getItem('krishi_token'), (t) => {
-    if (t) localStorage.setItem('krishi_token', t);
-    else localStorage.removeItem('krishi_token');
-  }];
-
-  const handleAuthSuccess = async (res) => {
-    setToken(res.access_token);
-    setUser(res.user);
-    const incomplete = !res.user.profile_completed;
-    setNeedsOnboarding(incomplete);
-    await refreshData();
-  };
-
-  return (
-    <LoginPage
-      key={needsOnboarding ? 'details' : 'login'}
-      initialMode={needsOnboarding ? 'details' : 'login'}
-      onAuthSuccess={handleAuthSuccess}
-    />
-  );
-}
+export default function App() { return <LanguageProvider><AppContent/></LanguageProvider>; }

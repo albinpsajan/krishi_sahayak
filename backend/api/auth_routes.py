@@ -38,9 +38,9 @@ def register_user(payload: UserRegister, db: Session = Depends(get_db)):
 
     # Temporary identity until the onboarding step completes
     display_name = payload.full_name.strip() or username
-    role = payload.role.upper() if payload.role else ""
-    if role not in ["FARMER", "OFFICER"]:
-        role = "FARMER"
+    if payload.role and payload.role.upper() != "FARMER":
+        raise api_error(403, AppErrorCode.ACCESS_DENIED, "Staff accounts require an administrator invitation")
+    role = "FARMER"
 
     user = User(
         email=email,
@@ -56,7 +56,8 @@ def register_user(payload: UserRegister, db: Session = Depends(get_db)):
     db.flush()
 
     if role == "FARMER":
-        db.add(FarmerProfile(user_id=user.id))
+        db.add(FarmerProfile(user_id=user.id, district="", land_size_acres=0,
+                             primary_crops="", water_source="", kissan_credit_card=False))
     else:
         db.add(OfficerProfile(user_id=user.id, officer_code=f"KL-AGRI-{random.randint(100, 999)}"))
 
@@ -88,6 +89,10 @@ def login_user(payload: UserLogin, db: Session = Depends(get_db)):
     if not user or not verify_password(payload.password, user.hashed_password):
         raise api_error(401, AppErrorCode.INVALID_CREDENTIALS, "Invalid email or password")
 
+    if not user.hashed_password.startswith("pbkdf2_sha256$"):
+        user.hashed_password = hash_password(payload.password)
+        db.commit()
+
     token = create_access_token({"sub": user.email, "role": user.role, "id": user.id})
     return {"access_token": token, "token_type": "bearer", "user": user}
 
@@ -103,6 +108,8 @@ def update_user_details(
     (Farmer or Officer), then completes the profile.
     """
     role = payload.role.upper()
+    if role != current_user.role:
+        raise api_error(403, AppErrorCode.ACCESS_DENIED, "Your account role cannot be changed here")
     if role not in ["FARMER", "OFFICER"]:
         raise api_error(400, AppErrorCode.INVALID_USER_DETAILS, "Role must be FARMER or OFFICER")
     if payload.age is not None and (payload.age < 10 or payload.age > 120):

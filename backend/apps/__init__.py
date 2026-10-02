@@ -13,3 +13,6 @@ from apps import audit  # noqa: F401
 from apps import notifications  # noqa: F401
 from apps import autoclerk  # noqa: F401
 from apps import farms  # noqa: F401
+from apps import operations  # noqa: F401
+from apps import community  # noqa: F401
+from apps import smart_planner  # noqa: F401

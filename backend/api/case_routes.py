@@ -1,8 +1,10 @@
 """Crop case endpoints: /api/cases (list, create, detail, officer review)."""
 
 import random
+import uuid
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
+from apps.operations.schemas import StatusInput
 from sqlalchemy.orm import Session
 from typing import List
 
@@ -63,7 +65,7 @@ def create_crop_case(
     db: Session = Depends(get_db),
     current_user: User = Depends(require_farmer),
 ):
-    case_num = f"CASE-2026-{random.randint(1000, 9999)}"
+    case_num = f"KS-{uuid.uuid4().hex[:10].upper()}"
 
     crop_case = CropCase(
         case_number=case_num,
@@ -77,26 +79,13 @@ def create_crop_case(
     db.add(crop_case)
     db.flush()
 
-    image_url = payload.image_base64_or_url or "/assets/sample_leaf.jpg"
-    db.add(CropImage(case_id=crop_case.id, image_url=image_url))
+    image_url = payload.image_base64_or_url or ""
+    if image_url:
+        if not image_url.startswith(f"/api/uploads/{current_user.id}/"):
+            raise api_error(400, AppErrorCode.CASE_ACCESS_DENIED, "Upload a crop photo from your account first")
+        db.add(CropImage(case_id=crop_case.id, image_url=image_url))
 
-    # Preliminary AI assessment (explanatory layer only; officer verifies next)
-    ai_result = crop_doctor_ai.analyze_crop_image(
-        crop_type=payload.crop_type,
-        image_filename=image_url,
-        symptoms=payload.symptoms_description,
-    )
-    ai_assessment = AIAssessment(
-        case_id=crop_case.id,
-        probable_disease=ai_result["probable_disease"],
-        hindi_malayalam_name=ai_result["hindi_malayalam_name"],
-        confidence=ai_result["confidence"],
-        observations=ai_result["observations"],
-        preliminary_guidance=ai_result["preliminary_guidance"],
-        malayalam_guidance=ai_result["malayalam_guidance"],
-        raw_ai_response=ai_result["raw_ai_response"],
-    )
-    db.add(ai_assessment)
+    ai_assessment = None  # New reports await a human; no fabricated diagnosis.
 
     log_audit_action(
         db,
@@ -108,29 +97,11 @@ def create_crop_case(
         target_id=str(crop_case.id),
         metadata={"crop": payload.crop_type, "case_number": case_num},
     )
-    log_audit_action(
-        db,
-        actor_id=1,
-        actor_name="CropDoctor AI Engine",
-        actor_role="AI_SYSTEM",
-        action="GENERATE_AI_ASSESSMENT",
-        target_type="AI_ASSESSMENT",
-        target_id=str(crop_case.id),
-        metadata={"probable_disease": ai_result["probable_disease"], "confidence": ai_result["confidence"]},
-    )
-
     create_notification(
-        db,
-        user_id=current_user.id,
-        title="🤖 Preliminary CropDoctor AI Assessment Available",
-        message=(
-            f"Case {case_num}: Preliminary diagnosis generated ({ai_result['probable_disease']}). "
-            f"Awaiting Officer Verification."
-        ),
-        malayalam_message=(
-            f"കേസ് {case_num}: താൽക്കാലിക AI വിലയിരുത്തൽ തയ്യാറായി. "
-            f"കൃഷി ഓഫീസറുടെ സ്ഥിരീകരണത്തിനായി കാത്തിരിക്കുന്നു."
-        ),
+        db, user_id=current_user.id,
+        title="Crop report received",
+        message=f"Report {case_num} is waiting for expert review. You can check its progress in Crop care.",
+        malayalam_message="",
         target_link=f"/cases/{crop_case.id}",
     )
 
@@ -150,7 +121,7 @@ def create_crop_case(
         "status": crop_case.status,
         "created_at": crop_case.created_at,
         "updated_at": crop_case.updated_at,
-        "images": [image_url],
+        "images": [image_url] if image_url else [],
         "ai_assessment": ai_assessment,
         "officer_review": None,
     }
@@ -180,6 +151,7 @@ def submit_officer_review(
     existing_review = db.query(OfficerReview).filter(OfficerReview.case_id == case_id).first()
     if existing_review:
         db.delete(existing_review)
+        db.flush()
 
     review = OfficerReview(
         case_id=case_id,
@@ -236,3 +208,21 @@ def submit_officer_review(
     db.refresh(review)
     logger.info("[CROP_CASE] officer review case_id=%s officer_id=%s confirmed=%s", case_id, current_user.id, payload.is_confirmed)
     return review
+
+
+@cases_router.patch("/{case_id}/status")
+def change_case_status(case_id: int, payload: StatusInput, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    row = db.get(CropCase, case_id)
+    if not row:
+        raise HTTPException(404, "Report not found")
+    if current_user.id != row.farmer_id and current_user.role not in ("OFFICER", "ADMIN"):
+        raise HTTPException(403, "This report belongs to another farmer")
+    transitions = {"Officer Verified": {"Closed"}, "Closed": {"Awaiting Officer Review"}}
+    if payload.status not in transitions.get(row.status, set()):
+        raise HTTPException(409, "That transition is not available")
+    row.status = payload.status
+    log_audit_action(db, actor_id=current_user.id, actor_name=current_user.full_name,
+                     actor_role=current_user.role, action="CHANGE_CASE_STATUS", target_type="CROP_CASE",
+                     target_id=str(row.id), metadata={"status": row.status})
+    db.commit()
+    return {"status": row.status}

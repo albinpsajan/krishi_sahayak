@@ -3,14 +3,14 @@
 from typing import List, Optional
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class CropCaseCreate(BaseModel):
-    crop_type: str
+    crop_type: str = Field(min_length=2, max_length=80)
     variety: Optional[str] = None
-    field_location: str
-    symptoms_description: Optional[str] = None
+    field_location: str = Field(min_length=2, max_length=200)
+    symptoms_description: str = Field(min_length=10, max_length=3000)
     image_base64_or_url: Optional[str] = None
 
 
@@ -32,9 +32,9 @@ class OfficerReviewCreate(BaseModel):
     is_confirmed: bool = True
     corrected_disease: Optional[str] = None
     officer_notes: Optional[str] = None
-    verified_recommendation: str
+    verified_recommendation: str = Field(min_length=10, max_length=5000)
     precautions: Optional[str] = None
-    follow_up_days: int = 7
+    follow_up_days: int = Field(default=7, ge=1, le=90)
     malayalam_recommendation: Optional[str] = None
     recommended_product: Optional[str] = None
     product_category: Optional[str] = "Organic Fungicide"

@@ -16,6 +16,25 @@ AI-Assisted, Officer-Verified Agricultural Administration Platform connecting **
 | **AutoClerk** | One-click official administrative report generation |
 | **Audit Ledger** | Tamper-evident SHA-256 hash chain of every important action |
 | **Notifications** | Bilingual (English / മലയാളം) in-app alerts |
+| **Smart Planner** | Farmer-drawn plot boundaries, approximate area, coconut spacing, irrigation choices, intercrops and reviewable material estimates |
+| **Live field signals** | In-app weather, market-price cards, one-minute refresh, multilingual labels and voice/text assistant |
+
+### Smart Planner
+
+The Smart Planner opens a satellite view using browser location or village search. The farmer confirms the real plot by clicking and dragging geographic pins on the imagery, then receives a preliminary coconut layout with configurable 7.5 m spacing, irrigation guidance, intercrop suggestions and a low/high material estimate. Farmers can save a plan and send it to an officer; officers can approve it, request changes or ask for a field check.
+
+The feature is deliberately split into inspectable modules:
+
+```
+backend/apps/smart_planner/  # models, schemas, rules, services and routes
+frontend/src/pages/SmartPlannerPage.jsx
+frontend/src/components/smartPlanner/  # satellite picker, SVG plan and result cards
+frontend/src/services/smartPlannerApi.js
+```
+
+The selected boundary is stored as WGS84 GeoJSON and projected to local metres for spacing calculations. Satellite imagery assists farmer selection; it does not detect, certify or infer legal ownership. Field verification remains necessary before construction or planting.
+
+Weather is fetched through the backend from Open-Meteo and cached for 60 seconds. Market prices use the modular market service and currently return clearly labelled pilot fallback data until a verified state feed is configured. The dashboard keeps the last response when a refresh fails. English, Malayalam, Hindi and Tamil are stored locally as the selected interface language; voice uses the browser Web Speech API with typed input as a fallback.
 
 ## Quickstart
 
@@ -50,7 +69,7 @@ The app works without a `.env` for local development (fallback JWT secret, local
 python -m unittest discover -s tests -t . -v
 ```
 
-39 tests cover subsidy matching, eligibility rules, document checking, audit ledger tamper-evidence, AI output contract, auth security and the profile service.
+The test suite covers subsidy matching, eligibility rules, document checking, audit ledger tamper-evidence, AI output contracts, auth security, profile workflows and Smart Planner geometry/layout rules.
 
 ## Project structure
 

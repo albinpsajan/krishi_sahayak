@@ -14,7 +14,7 @@ PROJECT_ROOT = os.path.dirname(BACKEND_DIR)             # repository root
 # --- Database ---
 _db_path = os.environ.get("KRISHI_DB_PATH") or os.path.join(BACKEND_DIR, "krishi_sahayak.db")
 DB_PATH = _db_path
-SQLALCHEMY_DATABASE_URL = f"sqlite:///{DB_PATH}"
+SQLALCHEMY_DATABASE_URL = os.environ.get("DATABASE_URL") or f"sqlite:///{DB_PATH}"
 
 # --- Security ---
 # NOTE: the fallback secret keeps the local demo working; production MUST set
@@ -34,8 +34,10 @@ CROP_DOCTOR_API_KEY = os.environ.get("CROP_DOCTOR_API_KEY") or ""
 
 # --- CORS ---
 CORS_ORIGINS = [o.strip() for o in (os.environ.get("CORS_ORIGINS") or "*").split(",")]
+PRIVATE_UPLOADS_DIR = os.path.join(BACKEND_DIR, "private_uploads")
 
 
 def ensure_directories():
     """Create runtime directories that may not exist on a fresh checkout."""
     os.makedirs(UPLOADS_DIR, exist_ok=True)
+    os.makedirs(PRIVATE_UPLOADS_DIR, exist_ok=True)

@@ -28,11 +28,17 @@ from config import settings
 from core.database import Base, engine, run_lightweight_migrations
 from core.logging_config import configure_logging
 from core.seed_data import seed_database
+from api.operation_routes import router as operations_router
+from apps.operations.seed import seed_operations
+from api.community_routes import router as community_router
+from apps.smart_planner.routes import router as smart_planner_router
+from api.live_data_routes import router as live_data_router
 
 # Create tables, add new columns to existing DBs, then seed demo data
 Base.metadata.create_all(bind=engine)
 run_lightweight_migrations()
 seed_database()
+seed_operations()
 
 app = FastAPI(
     title="KrishiSahayak AI API",
@@ -79,6 +85,10 @@ app.include_router(subsidies_router)
 app.include_router(officer_router)
 app.include_router(audit_router)
 app.include_router(notifications_router)
+app.include_router(operations_router)
+app.include_router(community_router)
+app.include_router(smart_planner_router)
+app.include_router(live_data_router)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,2 @@
+import React from 'react';
+export default function PlanVersionHistory({ versions = [] }) { return <section className="planner-card"><div className="eyebrow">PLAN HISTORY</div><h2>Saved versions</h2>{versions.length ? <div className="version-list">{versions.map(version => <div key={version.id}><strong>Version {version.version_number}</strong><span>{version.change_type}</span><small>{version.change_note || 'Original generated plan'}</small></div>)}</div> : <p className="planner-note">The original and future changes will be kept here.</p>}</section>; }
