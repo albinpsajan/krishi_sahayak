@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Sprout, ArrowUpRight, ArrowRight, ShieldCheck, Users, Leaf } from 'lucide-react';
 import { authAPI } from '../services/api';
 import { Button, Field } from '../components/ui/Primitives';

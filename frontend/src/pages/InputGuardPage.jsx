@@ -1,10 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, ArrowUpRight, BadgeCheck, Check, ClipboardCheck, CloudRain, FileImage, ImagePlus, Info, Leaf, Loader2, ShieldAlert, ShieldCheck, X } from 'lucide-react';
 import { useLanguage } from '../i18n/languageContext';
 import { inputGuardCopy } from '../i18n/inputGuardTranslations';
 import { inputGuardAPI } from '../services/api';
 import { Empty, PageHeading } from '../components/ui/Primitives';
 import FarmImage from '../components/media/FarmImage';
+import useAuthImage from '../hooks/useAuthImage';
 import '../featureImages.css';
 
 const decisionOptions = ['Approved', 'Not recommended', 'More details needed', 'Field visit required'];
@@ -21,22 +22,9 @@ function cropKey(value) {
   return aliases.find(group => group.some(alias => alias.toLowerCase() === value.trim().toLowerCase()))?.[0] || value.trim().toLowerCase();
 }
 
-function AuthPhoto({ imageUrl, token, label }) {
-  const [src, setSrc] = useState('');
-  useEffect(() => {
-    if (!imageUrl) return undefined;
-    let currentUrl;
-    let active = true;
-    fetch(imageUrl, { headers: { Authorization: `Bearer ${token}` } }).then(response => {
-      if (!response.ok) throw new Error('Photo unavailable');
-      return response.blob();
-    }).then(blob => {
-      currentUrl = URL.createObjectURL(blob);
-      if (active) setSrc(currentUrl);
-    }).catch(() => {});
-    return () => { active = false; if (currentUrl) URL.revokeObjectURL(currentUrl); };
-  }, [imageUrl, token]);
-  return imageUrl && src ? <img className="ig-saved-photo" src={src} alt={label}/> : null;
+function AuthPhoto({ imageUrl, label }) {
+  const src = useAuthImage(imageUrl);
+  return src ? <img className="ig-saved-photo" src={src} alt={label}/> : null;
 }
 
 function Field({ label, hint, children }) {
@@ -113,7 +101,7 @@ function CheckAssessment({ check, t }) {
   </div>;
 }
 
-function CheckCard({ check, t, token, officer = false, note = '', setNote, decision = 'Approved', setDecision, saveReview, savingId, onEdit }) {
+function CheckCard({ check, t, officer = false, note = '', setNote, decision = 'Approved', setDecision, saveReview, savingId, onEdit }) {
   const productTypeIndex = inputGuardCopy.en.productTypes.indexOf(check.product_type);
   const cropIndex = inputGuardCopy.en.crops.findIndex(crop => crop.toLowerCase() === check.crop.toLowerCase());
   const stageIndex = ['initial', 'vegetative', 'flowering', 'fruiting', 'maturity'].indexOf((check.crop_stage || '').toLowerCase());
@@ -124,7 +112,7 @@ function CheckCard({ check, t, token, officer = false, note = '', setNote, decis
   return <article className="ig-check-row">
     <div className="ig-check-top"><div>{officer && check.farmer_name && <span className="ig-kicker">{t.farmer}: {check.farmer_name}</span>}<span className="ig-kicker">{typeName} · {cropName} · {check.land_area} {t.areaLabel}</span><h3>{title}</h3></div><span className={`ig-status status-${check.status.toLowerCase().replaceAll(' ', '-')}`}>{t.statusLabels[check.status] || check.status}</span></div>
     <div className="ig-check-details">
-      {check.image_url && <AuthPhoto imageUrl={check.image_url} token={token} label={t.previewAlt}/>}
+      {check.image_url && <AuthPhoto imageUrl={check.image_url} label={t.previewAlt}/>}
       <dl>
         <div><dt>{t.cropStage}</dt><dd>{stageName || t.unknown}</dd></div>
         <div><dt>{t.batch}</dt><dd>{check.batch_number || t.unknown}</dd></div>
@@ -152,7 +140,6 @@ export default function InputGuardPage({ isOfficer = false, plots = [] }) {
   const [form, setForm] = useState(defaultForm), [photo, setPhoto] = useState(null), [preview, setPreview] = useState('');
   const [editingId, setEditingId] = useState(null), [existingImageUrl, setExistingImageUrl] = useState('');
   const [notes, setNotes] = useState({}), [decisions, setDecisions] = useState({}), [savingId, setSavingId] = useState(null);
-  const token = localStorage.getItem('krishi_token') || '';
   const cropOptions = useMemo(() => {
     const farmCrops = plots.map(plot => plot.crop).filter(Boolean);
     return [...new Set([...farmCrops, ...inputGuardCopy.en.crops])];
@@ -231,7 +218,7 @@ export default function InputGuardPage({ isOfficer = false, plots = [] }) {
     {notice && <div className="ig-feedback success" role="status"><Check size={17}/>{notice}</div>}
     {isOfficer ? <section className="ig-queue" aria-labelledby="ig-queue-heading">
       <div className="ig-section-head"><div><span className="ig-kicker">{t.pendingChecks}</span><h2 id="ig-queue-heading">{checks.length ? `${checks.length} ${t.pendingChecks.toLowerCase()}` : t.emptyPending}</h2></div><span className="ig-counter">{checks.length.toString().padStart(2, '0')}</span></div>
-      {loading ? <div className="ig-loading"><Loader2 className="ig-spin"/> {t.loading}</div> : checks.length ? <div className="ig-check-list">{checks.map(check => <CheckCard key={check.id} check={check} t={t} token={token} officer note={notes[check.id] || ''} setNote={(id, value) => setNotes(prev => ({ ...prev, [id]: value }))} decision={decisions[check.id] || 'Approved'} setDecision={(id, value) => setDecisions(prev => ({ ...prev, [id]: value }))} saveReview={saveReview} savingId={savingId}/>)}</div> : <Empty title={t.emptyPending}>{t.emptyPendingHint}</Empty>}
+      {loading ? <div className="ig-loading"><Loader2 className="ig-spin"/> {t.loading}</div> : checks.length ? <div className="ig-check-list">{checks.map(check => <CheckCard key={check.id} check={check} t={t} officer note={notes[check.id] || ''} setNote={(id, value) => setNotes(prev => ({ ...prev, [id]: value }))} decision={decisions[check.id] || 'Approved'} setDecision={(id, value) => setDecisions(prev => ({ ...prev, [id]: value }))} saveReview={saveReview} savingId={savingId}/>)}</div> : <Empty title={t.emptyPending}>{t.emptyPendingHint}</Empty>}
     </section> : <>
       <div className="ig-intro-strip"><span className="ig-seal"><ShieldCheck size={22}/></span><div><strong>{t.buyBefore}</strong><p>{t.authenticity}</p></div><span className="ig-intro-mark">01—04</span></div>
       <div className="ig-farmer-grid">
@@ -267,7 +254,7 @@ export default function InputGuardPage({ isOfficer = false, plots = [] }) {
         <aside className="ig-side-rail">
           <div className="ig-side-note ig-photo-note"><FarmImage asset="inputGuard" className="ig-inspection-photo" sizes="(max-width: 520px) 100vw, 360px"/><span className="ig-kicker">{t.safetyFirst}</span><h2>{t.sideTitle}</h2><p>{t.reviewHint}</p><span className="ig-side-illustration"><ShieldAlert size={43} strokeWidth={1}/><i/></span></div>
           <div className="ig-records" id="ig-recent"><div className="ig-section-head"><div><span className="ig-kicker">{t.checkHistory}</span><h2>{t.recentChecks}</h2></div><span className="ig-counter">{checks.length.toString().padStart(2, '0')}</span></div>
-            {loading ? <div className="ig-loading"><Loader2 className="ig-spin"/> {t.loading}</div> : checks.length ? <div className="ig-check-list">{checks.slice(0, 8).map(check => <CheckCard key={check.id} check={check} t={t} token={token} onEdit={editCheck}/>)}</div> : <div className="ig-empty"><Info size={20}/><strong>{t.emptyChecks}</strong><p>{t.emptyChecksHint}</p></div>}
+            {loading ? <div className="ig-loading"><Loader2 className="ig-spin"/> {t.loading}</div> : checks.length ? <div className="ig-check-list">{checks.slice(0, 8).map(check => <CheckCard key={check.id} check={check} t={t} onEdit={editCheck}/>)}</div> : <div className="ig-empty"><Info size={20}/><strong>{t.emptyChecks}</strong><p>{t.emptyChecksHint}</p></div>}
           </div>
         </aside>
       </div>

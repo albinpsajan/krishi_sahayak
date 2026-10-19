@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ArrowUpRight, Files, Check, ShieldCheck, Landmark } from 'lucide-react';
-import { PageHeading, Badge, Button } from '../components/ui/Primitives';
+import { PageHeading, Badge } from '../components/ui/Primitives';
 import { workspaceAPI } from '../services/workspace';
 
 export function SchemesPage({ schemes, navigate }) {

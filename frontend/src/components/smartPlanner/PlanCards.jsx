@@ -1,8 +1,6 @@
-import React from 'react';
 import { Droplets, Sprout, Ruler, Wrench, IndianRupee, ShieldCheck, ArrowUpRight } from 'lucide-react';
-import { Badge, SectionHeading, ReadAloud } from '../ui/Primitives';
+import { Badge, ReadAloud } from '../ui/Primitives';
 import { money } from '../../utils/format';
-import PlanVisual from './PlanVisual';
 
 export function PlotSummary({ plot }) { return <div className="planner-summary"><div><span>Approximate area</span><strong>{plot.area_acres} acres</strong><small>{plot.area_sq_m} m² · {plot.area_cents} cents · {plot.area_hectares} ha</small></div><div><span>Shape read</span><strong>{plot.shape_type}</strong><small>{plot.perimeter_m ? `${plot.perimeter_m} m boundary` : 'From your marked boundary'}</small></div><div><span>Planning area</span><strong>{plot.usable_area_sq_m || Math.round(plot.area_sq_m * .93)} m²</strong><small>Approx. 7% allowance for access and edge space</small></div></div>; }
 export function CoconutCard({ layout }) { return <section className="planner-card coconut-card"><div className="planner-card-heading"><span className="planner-icon olive"><Sprout size={24}/></span><div><div className="eyebrow">PLANTATION LAYOUT</div><h2>A considered start for coconut</h2></div></div><div className="planner-stat-row"><div><Ruler size={17}/><strong>{layout.spacing_x_m} × {layout.spacing_y_m} m</strong><span>recommended spacing</span></div><div><Sprout size={17}/><strong>{layout.estimated_tree_count}</strong><span>approx. trees</span></div><div><span className="row-glyph">▦</span><strong>{layout.row_count} rows</strong><span>estimated rows</span></div></div><p className="planner-note">A {layout.boundary_buffer_m} m boundary buffer leaves room to access trees and maintain the edge.</p><small className="source-note">{layout.rule_note}</small></section>; }

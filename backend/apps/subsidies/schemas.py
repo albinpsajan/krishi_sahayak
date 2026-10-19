@@ -1,9 +1,9 @@
 """Pydantic schemas for subsidy endpoints."""
 
-from typing import List, Optional
+from typing import Literal, Optional
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class SubsidySchemeResponse(BaseModel):
@@ -25,13 +25,13 @@ class SubsidySchemeResponse(BaseModel):
 class SubsidyApplicationCreate(BaseModel):
     scheme_id: int
     crop_case_id: Optional[int] = None
-    requested_subsidy_amount: float = 5000.0
+    requested_subsidy_amount: float = Field(default=5000.0, gt=0, le=10000000)
 
 
 class SubsidyDecision(BaseModel):
-    status: str  # Approved, Rejected, Info Requested
-    approved_amount: Optional[float] = None
-    decision_notes: str
+    status: Literal["Approved", "Rejected", "Info Requested"]
+    approved_amount: Optional[float] = Field(default=None, ge=0)
+    decision_notes: str = Field(max_length=2000)
 
 
 class SubsidyApplicationResponse(BaseModel):

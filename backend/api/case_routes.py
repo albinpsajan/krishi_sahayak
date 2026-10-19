@@ -1,14 +1,13 @@
 """Crop case endpoints: /api/cases (list, create, detail, officer review)."""
 
-import random
 import uuid
 
 from fastapi import APIRouter, Depends, HTTPException
 from apps.operations.schemas import StatusInput
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from typing import List
 
-from apps.crop_cases.models import AIAssessment, CropCase, CropImage, OfficerReview, Recommendation
+from apps.crop_cases.models import CropCase, CropImage, OfficerReview, Recommendation
 from apps.crop_cases.schemas import (
     CropCaseCreate,
     CropCaseResponse,
@@ -18,7 +17,6 @@ from apps.crop_cases.schemas import (
 from apps.farmer_profile.models import User
 from apps.notifications.notification_service import create_notification
 from apps.audit.audit_ledger import log_audit_action
-from ai.crop_doctor import crop_doctor_ai
 from core.database import get_db
 from core.errors import AppErrorCode, api_error
 from core.logging_config import get_logger
@@ -52,10 +50,14 @@ def _serialize_case(c: CropCase) -> dict:
 @cases_router.get("", response_model=List[CropCaseResponse])
 def get_cases(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     """Farmers see their own cases; officers see all cases."""
+    # Eager-load the relations used by _serialize_case to avoid N+1 queries.
+    query = db.query(CropCase).options(
+        joinedload(CropCase.farmer), joinedload(CropCase.images), joinedload(CropCase.officer_review)
+    )
     if current_user.role == "FARMER":
-        cases = db.query(CropCase).filter(CropCase.farmer_id == current_user.id).order_by(CropCase.id.desc()).all()
+        cases = query.filter(CropCase.farmer_id == current_user.id).order_by(CropCase.id.desc()).all()
     else:
-        cases = db.query(CropCase).order_by(CropCase.id.desc()).all()
+        cases = query.order_by(CropCase.id.desc()).all()
     return [_serialize_case(c) for c in cases]
 
 
@@ -129,7 +131,9 @@ def create_crop_case(
 
 @cases_router.get("/{case_id}", response_model=CropCaseResponse)
 def get_case_detail(case_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    c = db.query(CropCase).filter(CropCase.id == case_id).first()
+    c = db.query(CropCase).options(
+        joinedload(CropCase.farmer), joinedload(CropCase.images), joinedload(CropCase.officer_review)
+    ).filter(CropCase.id == case_id).first()
     if not c:
         raise api_error(404, AppErrorCode.CASE_NOT_FOUND, "Crop case not found")
     if current_user.role == "FARMER" and c.farmer_id != current_user.id:

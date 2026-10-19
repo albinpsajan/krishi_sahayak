@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Mic, Send, Square, X } from 'lucide-react';
 import { askAssistant, createRecognition, speak } from '../../services/voiceAssistantService';
 import { useLanguage } from '../../i18n/languageContext';

@@ -21,7 +21,8 @@ Discover subsidy schemes for a farmer, screen applications with **deterministic*
 | `apps/subsidies/services/document_checker.py` | Missing-document detection (token-overlap matching) |
 | `apps/subsidies/models.py` | SubsidyScheme, SubsidyApplication, ApplicationDocument |
 | `apps/subsidies/schemas.py` | Request/response contracts |
-| `frontend/src/pages/SubsidiesPage.jsx` | Scheme list, application form, application status |
+
+The current SPA shows the scheme directory in `frontend/src/pages/SupportPage.jsx`; application and decision endpoints are API-only until a dedicated application screen is added.
 
 ## Database models
 - **SubsidyScheme** — officer-managed source of truth (criteria, documents, amounts, max subsidy).

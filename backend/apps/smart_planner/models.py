@@ -1,6 +1,6 @@
 """Persistence models for explainable plantation and irrigation plans."""
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, Text, Float, Boolean, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, Text, Float, DateTime, ForeignKey
 from core.database import Base
 
 

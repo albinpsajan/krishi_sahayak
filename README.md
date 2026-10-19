@@ -94,7 +94,7 @@ Everything else used is Python standard library (`hashlib`, `hmac`, `urllib`, `j
 | `leaflet` | `^1.9.4` (Smart Planner satellite map) |
 | `lucide-react` | `^0.344.0` (icons) |
 
-State management is plain React hooks plus a small set of custom hooks (`useAuthGate`, `useAppData`, `useAutoRefresh`, `useWorkspace`) and one context provider (`i18n/languageContext.jsx`). **No router, store or UI-kit dependency** — navigation and view switching are handled inside `App.jsx`.
+State management is plain React hooks plus a small set of custom hooks (`useAutoRefresh`, `useWorkspace`, `useMarketPrices`) and one context provider (`i18n/languageContext.jsx`). **No router, store or UI-kit dependency** — navigation and view switching are handled inside `App.jsx`.
 
 ---
 
@@ -211,15 +211,14 @@ krishi-sahayak/
 │   └── src/
 │       ├── App.jsx          # Shell, navigation and view switching (no router dependency)
 │       ├── main.jsx         # React entrypoint
-│       ├── LegacyApp.jsx    # Pre-split single-file app kept for reference
-│       ├── pages/           # 20 screens (FarmerDashboard, OfficerDashboard, SmartPlannerPage, …)
+│       ├── pages/           # 13 page modules (Today, Farm, Crop care, Planner, Support, …)
 │       ├── components/     # Modals, ui primitives, market / weather / voice / smartPlanner groups
-│       ├── layouts/        # Header, NavBar, WorkspaceLayout
-│       ├── hooks/          # useAuthGate, useAppData, useAutoRefresh, useWorkspace
+│       ├── layouts/        # WorkspaceLayout
+│       ├── hooks/          # useAutoRefresh, useWorkspace, useMarketPrices
 │       ├── services/       # api.js, liveDataApi, smartPlannerApi, geoJson / satellite / area helpers
 │       ├── i18n/           # languageContext.jsx + translations.js (en / ml / hi / ta)
-│       ├── utils/          # format.js, roles.js
-│       └── *.css           # theme, liveData, smartPlanner, journal, readability, responsive
+│       ├── utils/          # format.js
+│       └── *.css           # journal, liveData, smartPlanner, inputGuard, responsive, readability, imageAssets
 ├── tests/                  # unittest suites mirroring the features
 │   ├── test_environment.py # Shared bootstrap + isolated temp database
 │   ├── test_live_data.py

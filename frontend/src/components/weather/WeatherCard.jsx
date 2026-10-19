@@ -1,4 +1,3 @@
-import React from 'react';
 import { CloudRain, Droplets, Wind, ThermometerSun } from 'lucide-react';
 import RefreshButton from '../common/RefreshButton';
 import LastUpdatedText from '../common/LastUpdatedText';

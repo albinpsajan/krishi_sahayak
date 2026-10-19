@@ -1,5 +1,5 @@
 """Build and serialize farmer input checks with weather and price context."""
-from datetime import datetime, timezone
+from datetime import timezone
 
 from apps.input_guard.models import InputCheck
 from apps.input_guard.services.input_price_service import assess_price

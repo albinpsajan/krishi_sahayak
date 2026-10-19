@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Users, Plus, MapPin, CalendarDays, Check, ArrowRight } from 'lucide-react';
 import { PageHeading, Button, Badge, Modal, Field, Empty } from '../components/ui/Primitives';
 import { workspaceAPI } from '../services/workspace';
-import { today, prettyDate } from '../utils/format';
+import { prettyDate } from '../utils/format';
 const stages=['Gathering interest','Coordinating','Scheduled','Completed'];
 
 export default function TogetherPage({ groups, staff, mutate }) {

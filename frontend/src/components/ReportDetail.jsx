@@ -1,17 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { ShieldCheck, Clock, Image } from 'lucide-react';
+import { useState } from 'react';
+import { ShieldCheck, Clock } from 'lucide-react';
 import { Modal, Badge, Field, Button, ReadAloud } from './ui/Primitives';
 import { casesAPI, apiCall } from '../services/api';
 import { prettyDate } from '../utils/format';
+import useAuthImage from '../hooks/useAuthImage';
 
 function PrivatePhoto({ url }) {
-  const [src, setSrc] = useState('');
-  useEffect(() => {
-    let active = true, objectUrl;
-    if (!url.startsWith('/api/uploads/')) return;
-    fetch(url, {headers:{Authorization:`Bearer ${localStorage.getItem('krishi_token')}`}}).then(r => {if (!r.ok) throw Error(); return r.blob();}).then(blob => {objectUrl=URL.createObjectURL(blob); if(active) setSrc(objectUrl);}).catch(()=>{});
-    return () => {active=false; if(objectUrl) URL.revokeObjectURL(objectUrl);};
-  }, [url]);
+  const src = useAuthImage(url.startsWith('/api/uploads/') ? url : '');
   return src ? <img className="crop-photo" src={src} alt="Farmer’s crop report photograph"/> : null;
 }
 export default function ReportDetail({ report, staff, mutate, onClose }) {

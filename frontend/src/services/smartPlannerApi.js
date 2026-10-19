@@ -1,7 +1,6 @@
 import { apiCall } from './api';
 
 export const smartPlannerAPI = {
-  rules: () => apiCall('/smart-planner/rules'),
   plots: () => apiCall('/smart-planner/plots'),
   createPlot: (payload) => apiCall('/smart-planner/plots', 'POST', payload),
   plan: (payload) => apiCall('/smart-planner/plans/generate', 'POST', payload),

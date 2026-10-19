@@ -1,7 +1,7 @@
 """Workflow rules. Changes and their activity records commit together."""
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
-from .models import Activity, Booking, Resource
+from .models import Activity, Resource
 
 
 def record(db, user, kind, target_id, message):

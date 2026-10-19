@@ -52,7 +52,9 @@ configure_logging()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,
-    allow_credentials=True,
+    # Wildcard origins cannot be combined with credentialed CORS. The SPA
+    # authenticates with a Bearer token, so cookies are not required.
+    allow_credentials="*" not in settings.CORS_ORIGINS,
     allow_methods=["*"],
     allow_headers=["*"],
 )

@@ -1,5 +1,4 @@
 """Pure planning calculations. No database or HTTP concerns belong here."""
-import html
 import math
 from .rules import COCONUT_RULES, IRRIGATION_RULES, INTERCROP_RULES, COSTS
 

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { ArrowLeft, ArrowRight, Map, Save, Sparkles, ShieldCheck, ClipboardList } from 'lucide-react';
-import { PageHeading, Button, Field, Modal, Badge, Empty } from '../components/ui/Primitives';
+import { useEffect, useState } from 'react';
+import { ArrowLeft, ArrowRight, Map, Sparkles, ShieldCheck, ClipboardList } from 'lucide-react';
+import { PageHeading, Button, Field, Badge, Empty } from '../components/ui/Primitives';
 import { smartPlannerAPI } from '../services/smartPlannerApi';
 import SatellitePlotMap from '../components/smartPlanner/SatellitePlotMap';
 import PlanVisual from '../components/smartPlanner/PlanVisual';
@@ -8,7 +8,7 @@ import { PlotSummary, CoconutCard, IrrigationCard, IntercropCard, MaterialsCard,
 import PlanCustomizationPanel from '../components/smartPlanner/PlanCustomizationPanel';
 import PlanVersionHistory from '../components/smartPlanner/PlanVersionHistory';
 import PlannerLiveSignals from '../components/smartPlanner/PlannerLiveSignals';
-import { money, prettyDate } from '../utils/format';
+import { prettyDate } from '../utils/format';
 import FarmImage from '../components/media/FarmImage';
 import { useLanguage } from '../i18n/languageContext';
 import '../featureImages.css';

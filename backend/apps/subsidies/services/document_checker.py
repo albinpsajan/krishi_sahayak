@@ -12,8 +12,6 @@ one name contains the other verbatim.
 
 import re
 
-from apps.subsidies.services.eligibility_checker import MISSING_DOC_PENALTY
-
 # Words too generic to prove a specific document type on their own
 GENERIC_WORDS = {"and", "the", "for", "with", "from", "copy", "report", "record", "card", "certificate"}
 
@@ -53,8 +51,3 @@ def find_missing_documents(scheme: dict, application_docs: list) -> list:
         if not any(document_satisfies_requirement(up, req) for up in uploaded):
             missing.append(req)
     return missing
-
-
-def document_penalty(missing_docs: list) -> int:
-    """Score penalty applied when mandatory documents are missing."""
-    return MISSING_DOC_PENALTY if missing_docs else 0

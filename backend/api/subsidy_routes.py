@@ -4,7 +4,7 @@ import json
 import random
 
 from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from typing import List
 
 from apps.audit.audit_ledger import log_audit_action
@@ -126,15 +126,13 @@ def apply_for_subsidy(
 
 @subsidies_router.get("/applications", response_model=List[SubsidyApplicationResponse])
 def get_subsidy_applications(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    query = db.query(SubsidyApplication).options(
+        joinedload(SubsidyApplication.farmer), joinedload(SubsidyApplication.scheme)
+    )
     if current_user.role == "FARMER":
-        apps = (
-            db.query(SubsidyApplication)
-            .filter(SubsidyApplication.farmer_id == current_user.id)
-            .order_by(SubsidyApplication.id.desc())
-            .all()
-        )
+        apps = query.filter(SubsidyApplication.farmer_id == current_user.id).order_by(SubsidyApplication.id.desc()).all()
     else:
-        apps = db.query(SubsidyApplication).order_by(SubsidyApplication.id.desc()).all()
+        apps = query.order_by(SubsidyApplication.id.desc()).all()
     return [_serialize_application(a) for a in apps]
 
 

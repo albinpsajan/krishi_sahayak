@@ -20,8 +20,8 @@ Farmers submit crop-health cases with a photo; the AI layer produces a **prelimi
 | `ai/crop_doctor.py` | Preliminary assessment provider |
 | `ai/knowledge_base.py` | Disease data + Malayalam translations |
 | `api/upload_routes.py` | Private photo storage the case form uploads to |
-| `frontend/src/pages/CasesPage.jsx`, `CropCarePage.jsx` | Case list and case care views |
-| `frontend/src/components/CropCaseWizardModal.jsx`, `CaseDetailModal.jsx`, `CropReportForm.jsx`, `ReportDetail.jsx` | Submission and review UI |
+| `frontend/src/pages/CropCarePage.jsx` | Case list and case care view |
+| `frontend/src/components/CropReportForm.jsx`, `ReportDetail.jsx` | Submission and review UI |
 
 ## Database models
 CropCase, CropImage, AIAssessment, OfficerReview, Recommendation (all in `apps/crop_cases/models.py`).

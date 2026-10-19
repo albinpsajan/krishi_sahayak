@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { ArrowUpRight, X, Leaf, Volume2 } from 'lucide-react';
 import { listen } from '../../utils/format';
 

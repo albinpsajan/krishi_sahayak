@@ -1,4 +1,3 @@
-import React from 'react';
 import { Store } from 'lucide-react';
 import RefreshButton from '../common/RefreshButton';
 import FarmImage from '../media/FarmImage';

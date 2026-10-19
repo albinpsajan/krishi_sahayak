@@ -48,21 +48,26 @@ export const profileAPI = {
   getProfile: () => apiCall('/profile', 'GET'),
 };
 
+/** Shared multipart upload used by crop photos and Input Guard photos. */
+const uploadForm = async (endpoint, file, fallbackError) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  const token = localStorage.getItem('krishi_token');
+  const res = await fetch(`${API_BASE}${endpoint}`, {
+    method: 'POST',
+    headers: token ? { 'Authorization': `Bearer ${token}` } : {},
+    body: formData,
+  });
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    const detail = error.detail;
+    throw new Error(typeof detail === 'string' ? detail : detail?.message || fallbackError);
+  }
+  return res.json();
+};
+
 export const uploadAPI = {
-  uploadFile: async (file) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    const token = localStorage.getItem('krishi_token');
-    const res = await fetch(`${API_BASE}/upload`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-      body: formData,
-    });
-    if (!res.ok) throw new Error('File upload failed');
-    return await res.json();
-  },
+  uploadFile: (file) => uploadForm('/upload', file, 'File upload failed'),
 };
 
 export const inputGuardAPI = {
@@ -71,41 +76,17 @@ export const inputGuardAPI = {
   update: (id, payload) => apiCall(`/input-guard/${id}`, 'PATCH', payload),
   pending: () => apiCall('/input-guard/officer/pending'),
   review: (id, decision, note) => apiCall(`/input-guard/officer/${id}/review`, 'PATCH', { decision, note }),
-  upload: async (file) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    const token = localStorage.getItem('krishi_token');
-    const res = await fetch(`${API_BASE}/input-guard/upload`, { method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: formData });
-    if (!res.ok) {
-      const error = await res.json().catch(() => ({}));
-      const detail = error.detail;
-      throw new Error(typeof detail === 'string' ? detail : detail?.message || 'Photo upload failed.');
-    }
-    return res.json();
-  },
+  upload: (file) => uploadForm('/input-guard/upload', file, 'Photo upload failed.'),
 };
 
 export const casesAPI = {
   getCases: () => apiCall('/cases', 'GET'),
-  getCaseDetail: (id) => apiCall(`/cases/${id}`, 'GET'),
   createCase: (payload) => apiCall('/cases', 'POST', payload),
   submitOfficerReview: (caseId, payload) => apiCall(`/cases/${caseId}/review`, 'POST', payload),
 };
 
 export const subsidiesAPI = {
   getSchemes: () => apiCall('/subsidies', 'GET'),
-  apply: (payload) => apiCall('/subsidies/apply', 'POST', payload),
-  getApplications: () => apiCall('/subsidies/applications', 'GET'),
-  decideApplication: (appId, payload) => apiCall(`/subsidies/applications/${appId}/decide`, 'POST', payload),
-};
-
-export const officerAPI = {
-  getAutoClerkReport: (caseId) => apiCall(`/officer/autoclerk/${caseId}`, 'GET'),
-};
-
-export const auditAPI = {
-  getLedger: () => apiCall('/audit/ledger', 'GET'),
-  verifyIntegrity: () => apiCall('/audit/verify', 'GET'),
 };
 
 export const notificationsAPI = {

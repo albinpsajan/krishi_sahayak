@@ -25,7 +25,7 @@ Give the farmer the three things that change hour to hour — weather, market pr
 | `services/cache.py` | 60-second in-process cache shared by both adapters |
 | `api/live_data_routes.py` | Authenticated HTTP boundary |
 | `frontend/src/components/weather/` | `WeatherCard.jsx`, `WeatherActionSuggestion.jsx` |
-| `frontend/src/components/market/` | `MarketPriceCard.jsx`, `PriceChangeBadge.jsx` |
+| `frontend/src/components/market/` | `MarketPriceCard.jsx` |
 | `frontend/src/components/voice/` | `VoiceAssistantButton.jsx`, `VoiceAssistantPanel.jsx` |
 | `frontend/src/services/liveDataApi.js` | API client for this feature |
 | `frontend/src/services/voiceAssistantService.js` | Web Speech API wrapper |

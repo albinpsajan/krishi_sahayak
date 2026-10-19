@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Camera, Save, Send } from 'lucide-react';
 import { Modal, Field, Button } from './ui/Primitives';
 import { casesAPI, uploadAPI } from '../services/api';

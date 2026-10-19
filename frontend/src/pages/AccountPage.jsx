@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Bell, Check, User } from 'lucide-react';
 import { PageHeading, Field, Button, Empty, ReadAloud, Badge } from '../components/ui/Primitives';
 import { workspaceAPI } from '../services/workspace';

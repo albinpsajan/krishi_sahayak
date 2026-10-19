@@ -17,7 +17,8 @@ Append-only, cryptographically chained (SHA-256) record of every important actio
 | `apps/audit/models.py` | `AuditRecord` (table `audit_records`) |
 | `apps/audit/schemas.py` | `AuditRecordResponse` |
 | `api/audit_routes.py` | `GET /api/audit/ledger`, `GET /api/audit/verify` |
-| `frontend/src/pages/AuditPage.jsx` | Ledger timeline and integrity banner |
+
+There is currently no dedicated audit screen in the SPA; the ledger is consumed through the API.
 
 ## Database models
 `AuditRecord` (id, actor_id, actor_name, actor_role `FARMER`/`OFFICER`/`AI_SYSTEM`, action, target_type, target_id as string, timestamp, `metadata_json`, prev_hash, current_hash).

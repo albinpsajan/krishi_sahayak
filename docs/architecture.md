@@ -166,7 +166,7 @@ One documented exception: `apps/operations/` writes `Farm` and `FarmCrop` rows f
 
 - One file per screen in `src/pages/`; reusable UI in `src/components/` (`ui/` primitives, plus `market/`, `weather/`, `voice/`, `smartPlanner/`, `common/` groups).
 - Data access lives in `src/services/` (`api.js`, `liveDataApi.js`, `smartPlannerApi.js`, plus GeoJSON / satellite-map / area helpers). Components do not call `fetch` directly.
-- Shared behaviour lives in hooks: `useAuthGate` (role gating), `useAppData` (shared fetches), `useAutoRefresh` (60-second live refresh), `useWorkspace` (workspace context).
+- Shared behaviour lives in hooks: `useAutoRefresh` (60-second live refresh), `useWorkspace` (workspace context and refreshes), `useMarketPrices` (market data with polling).
 - All user-facing strings go through `i18n/translations.js` (`en`, `ml`, `hi`, `ta`) — do not hard-code English copy in a component.
 - The app is a plain SPA with no router dependency: `App.jsx` owns navigation and view switching.
 

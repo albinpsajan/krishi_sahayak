@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Plus, ShieldCheck } from 'lucide-react';
 import { PageHeading, Button, Badge, Modal, Field, Empty } from '../components/ui/Primitives';
 import { apiCall } from '../services/api';

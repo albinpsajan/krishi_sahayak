@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Plus, Droplets, CalendarDays, ArrowUpRight } from 'lucide-react';
 import { PageHeading, Button, Modal, Field, Badge, Empty } from '../components/ui/Primitives';
 import FarmImage from '../components/media/FarmImage';

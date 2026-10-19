@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import WeatherCard from '../weather/WeatherCard';
 import MarketPriceCard from '../market/MarketPriceCard';
 import { liveDataAPI } from '../../services/liveDataApi';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ImageOff, Sprout } from 'lucide-react';
 import { useLanguage } from '../../i18n/languageContext';
 import { getCropImage, imageAssets, imageLabels } from '../../data/imageAssets';

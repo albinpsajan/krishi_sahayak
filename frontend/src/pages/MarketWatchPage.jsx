@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ArrowUpRight, Info, Calculator } from 'lucide-react';
 import { PageHeading, Field, Button } from '../components/ui/Primitives';
 import { money } from '../utils/format';
-import { liveDataAPI } from '../services/liveDataApi';
 import MarketPriceCard from '../components/market/MarketPriceCard';
 import useMarketPrices from '../hooks/useMarketPrices';
 

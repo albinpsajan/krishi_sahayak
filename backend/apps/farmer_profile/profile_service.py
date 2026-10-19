@@ -8,7 +8,7 @@ exactly one source of truth:
     Farmer Profile -> profile_service -> Subsidies / Crop Cases / AutoClerk
 """
 
-from apps.farmer_profile.models import FarmerProfile, OfficerProfile
+from apps.farmer_profile.models import FarmerProfile
 
 
 def get_farmer_profile(db, user_id: int) -> FarmerProfile:
@@ -30,11 +30,6 @@ def get_farmer_context(db, user) -> dict:
         "land_size_acres": fp.land_size_acres if fp else 2.5,
         "primary_crops": fp.primary_crops if fp else "Paddy",
     }
-
-
-def get_officer_profile(db, user_id: int) -> OfficerProfile:
-    """Returns the OfficerProfile row for a user, or None."""
-    return db.query(OfficerProfile).filter(OfficerProfile.user_id == user_id).first()
 
 
 def build_profile_response(user) -> dict:

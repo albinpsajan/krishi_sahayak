@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ArrowRight, ArrowUpRight, Sprout, Camera, Tractor, Users, CalendarDays, ShieldCheck, ChevronRight, Map } from 'lucide-react';
 import { PageHeading, SectionHeading, Empty } from '../components/ui/Primitives';
 import { firstName, prettyDate } from '../utils/format';
